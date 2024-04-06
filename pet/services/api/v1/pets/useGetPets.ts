@@ -3,26 +3,29 @@ import { requestClient } from '../../../clients/requestClient';
 import { IPetProfile, PetSearchParams, Pagination } from './type';
 import useToastUI from '../../../../core/hooks/useToastUI';
 
-const fetchPetList = async (queryParams?: PetSearchParams) => {
-  const {toastError} = useToastUI();
+const fetchPetList = async (queryParams: PetSearchParams) => {
+    const { toastError } = useToastUI();
     try {
-      const searchValue = queryParams?.search?.trim() ?? '';
-      const response = await requestClient.get(`api/v1/pets/`);
-      return [response.data as IPetProfile[], response.data.pagination as Pagination];
+        const filteredQueryParams = Object.fromEntries(
+            Object.entries(queryParams).filter(([_, value]) => Boolean(value)),
+        );
+        const queryParamsString = new URLSearchParams(filteredQueryParams as Record<string, string>).toString();
+        const response = await requestClient.get(`api/v1/pets/filter?${queryParamsString}`);
+        return [response.data as IPetProfile[], response.data.pagination as Pagination];
     } catch (error) {
-      toastError('Failed loading pet lists');
-      throw error;
+        toastError('Failed loading pet lists');
+        throw error;
     }
-  };
+};
 
 export default function useGetPets(
     queryParams: PetSearchParams,
-  queryOptions?: any,
+    queryOptions?: any,
 ): UseQueryResult<[IPetProfile[], Pagination]> {
-  return useQuery({
-    queryKey: ['pets', queryParams],
-    queryFn: () => fetchPetList(queryParams),
-    refetchOnMount: true,
-    ...queryOptions,
-  });
+    return useQuery({
+        queryKey: ['pets', queryParams],
+        queryFn: () => fetchPetList(queryParams),
+        refetchOnMount: true,
+        ...queryOptions,
+    });
 }

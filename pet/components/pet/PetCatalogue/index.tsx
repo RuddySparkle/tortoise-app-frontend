@@ -34,8 +34,16 @@ export default function PetCatalogue() {
         isError,
     } = useGetPets(
         {
-            search: '',
-            filter: '',
+            category: '',
+            species: '',
+            sex: '',
+            behavior: '',
+            minAgeStr: '',
+            maxAgeStr: '',
+            minWeightStr: '',
+            maxWeightStr: '',
+            minPriceStr: '',
+            maxPriceStr: '',
         },
         {
             enabled: true,
