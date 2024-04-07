@@ -284,7 +284,7 @@ export default function CheckoutPage() {
                             <Box sx={{ py: '16px', textAlign: 'center' }}>
                                 <Button
                                     onClick={() => {
-                                        router.push('/user/my-orders');
+                                        router.push('/user/transaction-history');
                                     }}
                                     sx={{
                                         px: 3,

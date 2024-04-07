@@ -26,6 +26,13 @@ export interface IPetDetail {
     seller_id: string;
 }
 
+export interface IPetFilter {
+    category?: string,
+    sex?: string,
+    minPrice?: number,
+    maxPrice?: number,
+}
+
 export interface IPetUpdatePayload {
     name: string;
     age: number;
