@@ -20,23 +20,23 @@ export default function FilterBar(props: filterProps) {
     const { data: petCategory, isSuccess: petCategorySuccess } = useGetPetCategory();
     const petCategoryList = ((petCategory || []) as IPetCategoryMasterData[]);
 
-    const [species, setSpecies] = useState('');
+    const [category, setCategory] = useState('');
     const [sex, setSex] = useState('');
     const [priceRange, setPriceRange] = useState<number[]>([0, 500000]);
 
     const onSubmit = () => {
 
         const data = {
-            category: '',
-            species: species,
+            category: category,
+            species: '',
             sex: sex,
             behavior: '',
-            minAgeStr: '',
-            maxAgeStr: '',
-            minWeightStr: '',
-            maxWeightStr: '',
-            minPriceStr: priceRange.at(0)?.toString(),
-            maxPriceStr: priceRange.at(1)?.toString(),
+            minAge: '',
+            maxAge: '',
+            minWeight: '',
+            maxWeight: '',
+            minPrice: priceRange.at(0)?.toString(),
+            maxPrice: priceRange.at(1)?.toString(),
         } as PetSearchParams
 
         props.onFiltersChange(data)
@@ -68,7 +68,7 @@ export default function FilterBar(props: filterProps) {
                         fullWidth
                         select 
                         label="Category"
-                        onChange={(e) => setSpecies(e.target.value)}
+                        onChange={(e) => setCategory(e.target.value)}
                         sx={{
                             textAlign: 'left',
                             backgroundColor: '#FEF1DA'
@@ -125,7 +125,7 @@ export default function FilterBar(props: filterProps) {
                         {SEX_MASTER.map((element) => (
                             <MenuItem
                                 key={element}
-                                value={element.charAt(0)}
+                                value={element}
                                 sx={{
                                     fontFamily: fira_sans_600.style.fontFamily,
                                     '&:hover': { backgroundColor: '#F3DDD1' },
