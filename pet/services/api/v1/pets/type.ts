@@ -73,12 +73,12 @@ export interface PetSearchParams {
     species: string;
     sex: string;
     behavior: string;
-    minAgeStr: string;
-    maxAgeStr: string;
-    minWeightStr: string;
-    maxWeightStr: string;
-    minPriceStr: string;
-    maxPriceStr: string;
+    minAge: string;
+    maxAge: string;
+    minWeight: string;
+    maxWeight: string;
+    minPrice: string;
+    maxPrice: string;
 }
 export interface Pagination {
     total: number;
