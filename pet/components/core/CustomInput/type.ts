@@ -23,6 +23,7 @@ export const CustomTextField = styled(TextField)({
         borderBottomColor: '#B2BAC2',
     },
     '& .MuiInputBase-input': {
+        transition: '0.3s',
         fontFamily: fira_sans_condensed.style.fontFamily
     },
     '& .MuiInputBase-input:hover': {
@@ -30,6 +31,7 @@ export const CustomTextField = styled(TextField)({
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
+            transition: '0.1s',
             borderRadius: 0,
             border: '1px solid #472F05',
             boxShadow: '3px 3px #472F05',
