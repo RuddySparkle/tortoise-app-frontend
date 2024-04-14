@@ -3,9 +3,15 @@ import Image from 'next/image';
 import InteractionPetCard from '../InteractionPetCard';
 import { PetCardProps } from '../PetCatalogue';
 import { styled } from '@mui/material';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 
 export default function PetCard(props: PetCardProps) {
-    const { petId, petName, breed, seller, price, imgSrc } = props;
+    const { petId, petName, category, seller, price, imgSrc } = props;
+    const { data: sellerProfile, isSuccess: sellerProfileSuccess } = useGetUserProfile(seller || '');
+    if (!sellerProfileSuccess) {
+        return null;
+    }
 
     return (
         <InteractionPetCard petId={petId}>
@@ -26,8 +32,8 @@ export default function PetCard(props: PetCardProps) {
                 />
             </Box>
             <div style={{ display: 'block', height: 100, padding: 10, overflowWrap: '-moz-initial' }}>
-                <div style={{ textAlign: 'center', fontSize: 23 }}>{petName}</div>
-                <div>Breed: {breed}</div>
+                <div style={{ textAlign: 'center', fontSize: 23, fontFamily: fira_sans_800.style.fontFamily }}>{petName}</div>
+                <div>Category: {category}</div>
                 <div
                     style={{
                         display: 'flex',
@@ -39,10 +45,28 @@ export default function PetCard(props: PetCardProps) {
                         textOverflow: 'ellipsis',
                     }}
                 >
-                    <p style={{ display: 'block', width: '55%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        Seller: {seller}
+                    <p
+                        style={{
+                            display: 'block',
+                            width: '55%',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            textAlign: 'left',
+                            fontFamily: fira_sans_600.style.fontFamily,
+                        }}
+                    >
+                        Seller: {sellerProfile?.first_name} {sellerProfile?.last_name}
                     </p>
-                    <p style={{ display: 'block', width: '45%', textAlign: 'end' }}>Price: ฿{price}</p>
+                    <p
+                        style={{
+                            display: 'block',
+                            width: '45%',
+                            textAlign: 'end',
+                            fontFamily: fira_sans_600.style.fontFamily,
+                        }}
+                    >
+                        Price: ฿{price}
+                    </p>
                 </div>
             </div>
         </InteractionPetCard>

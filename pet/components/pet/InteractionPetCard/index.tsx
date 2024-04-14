@@ -25,12 +25,14 @@ export default function InteractionPetCard({ children, petId }: { children: Reac
             style={
                 hover
                     ? {
+                          transition: '0.2s',
                           border: '2px solid black',
                           boxShadow: '5px 4px #472F05',
                           backgroundColor: '#F79762',
                           cursor: 'pointer',
                       }
                     : {
+                          transition: '0.2s',
                           border: '2px solid black',
                           boxShadow: '5px 4px #472F05',
                           backgroundColor: '#F3DDD1',

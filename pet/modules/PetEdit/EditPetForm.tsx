@@ -65,11 +65,11 @@ export default function EditPetForm() {
                 species: petFullDetail?.species,
                 category: petFullDetail?.category,
                 behavior: petFullDetail?.behavior,
-                media: petFullDetail?.media,
                 medical_records: petFullDetail?.medical_records,
             } as IPetUpdatePayload),
             ...data,
         };
+        console.log(updateData)
         try {
             await mutateUpdatePet({ petId: petParams.petId, payload: updateData } as IPetUpdateParams);
             refetch();

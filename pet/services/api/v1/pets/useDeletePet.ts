@@ -14,7 +14,7 @@ export default function useDeletePet({
         mutationFn: async (request: IPetQueryParams) => {
             try {
                 const { petId } = request;
-                const response: IAxiosResponse = await requestClient.delete(`/api/v1/pets/${petId}`);
+                const response: IAxiosResponse = await requestClient.delete(`/api/v1/pets/pet/${petId}`);
                 const responseData = response.data;
                 return responseData as IResponseData<IPetQueryParams>;
             } catch (err) {

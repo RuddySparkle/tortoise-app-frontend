@@ -13,8 +13,8 @@ interface PetEditCardProps extends IPetDetail {
 }
 
 const DEMO_CHOICES = [
-    { label: 'Male', value: 'M' },
-    { label: 'Female', value: 'F' },
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
 ];
 
 export default function PetEditCard(props: PetEditCardProps) {
