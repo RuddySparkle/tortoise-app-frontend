@@ -9,7 +9,7 @@ export default function MyShop() {
             <Box sx={{ p: '16px 10%' }}>
                 <SellerShopBriefCard />
             </Box>
-            <Box sx={{ p: '16px 10%' }}>
+            <Box sx={{ p: '16px 4%' }}>
                 <CatalogueBySeller />
             </Box>
         </>

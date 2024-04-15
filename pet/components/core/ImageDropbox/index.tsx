@@ -12,11 +12,12 @@ type Props = {
 };
 
 const FileUploader = (props: Props) => {
-    const maxImagesUpload = 10;
+    const maxImagesUpload = 1;
     const inputId = Math.random().toString(32).substring(2);
 
     const handleOnAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
+        
         const files: File[] = [];
 
         for (const file of e.target.files) {
@@ -76,21 +77,25 @@ const FileUploader = (props: Props) => {
                 ))}
             </Grid>
             <label htmlFor={inputId}>
-                <ColorButton
-                    disabled={props.images.length >= maxImagesUpload}
-                    component="span"
-                    sx={{
-                        my: 4,
-                        width: 130,
-                        border: '2px solid #472F05',
-                        borderRadius: 0,
-                        boxShadow: '2px 2px #472F05',
-                    }}
-                >
-                    <Typography sx={{ fontFamily: fira_sans_600.style.fontFamily, color: '#472F05' }}>
-                        Upload Files
-                    </Typography>
-                </ColorButton>
+                {
+                    props.images.length >= maxImagesUpload ? null :
+                    <ColorButton
+                        disabled={props.images.length >= maxImagesUpload}
+                        component="span"
+                        sx={{
+                            my: 4,
+                            width: 130,
+                            border: '2px solid #472F05',
+                            borderRadius: 0,
+                            boxShadow: '2px 2px #472F05',
+                        }}
+                    >
+                        <Typography sx={{ fontFamily: fira_sans_600.style.fontFamily, color: '#472F05' }}>
+                            Upload Files
+                        </Typography>
+                    </ColorButton>
+                }
+                
                 {/* <Button
                     variant="contained"
                     disabled={props.images.length >= maxImagesUpload}

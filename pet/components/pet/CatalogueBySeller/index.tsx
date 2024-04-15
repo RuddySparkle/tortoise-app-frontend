@@ -26,7 +26,17 @@ export default function CatalogueBySeller() {
     const petListData = sellerPetList || [];
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box
+            sx={{
+                mx: '5%',
+                py: 3,
+                px: 4,
+                backgroundColor: '#F4B983',
+                border: '2px solid #472F05',
+                borderRadius: 1,
+                boxShadow: '5px 5px #472F05',
+            }}
+        >
             <Grid
                 container
                 spacing={{ xs: 2, md: 3 }}

@@ -17,6 +17,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Fira_Sans_Condensed } from 'next/font/google';
 import useLogout from '../../../core/auth/useLogout';
 import useGetSession from '@core/auth/useGetSession';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import { useState, useEffect } from 'react';
+import { fira_sans_800 } from '@core/theme/theme';
+import { set } from 'react-hook-form';
 
 const fira_sans_600 = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -25,11 +29,13 @@ function TopBar() {
     const router = useRouter();
     const session = useGetSession();
 
-    const pages = [
-        ...(session.role === 'seller' ? ['My Shop'] : []),
-        'Marketplace',
-        ...(session.role === 'buyer' ? ['My Orders'] : []),
-    ];
+    const [profileImage, setProfileImage] = useState('')
+    const [pages, setPages] = useState([''])
+
+    // const pages = session.role === 'seller' ? ['My Shop', 'Marketplace'] : ['Marketplace', 'My Orders'] 
+
+    const { data: userProfile, isSuccess: userProfileSuccess } = useGetUserProfile(session.userID || '');
+       
     const settings = ['Account', 'Transaction History', 'Report a Problem', 'Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -49,6 +55,22 @@ function TopBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    useEffect(() => {
+        if(session.role == 'seller'){
+            setPages(['My Shop', 'Marketplace'])
+        }
+        else{
+            setPages(['MarketPlace', 'My Ordered'])
+        }
+        if(!userProfile) {
+            setProfileImage('')
+        }
+        else {
+            setProfileImage(userProfile.image)
+        }
+        
+    }, [session.role, userProfile?.image])
 
     if (path.includes('checkout')) {
         return null;
@@ -152,7 +174,8 @@ function TopBar() {
                             <Box
                                 key={page}
                                 sx={{
-                                    borderBottom: path.includes(page.toLowerCase().replace(' ', '-'))
+                                    borderBottom: (path.includes(page.toLowerCase().replace(' ', '-')) || 
+                                    (path.includes('transaction-history') && page.toLowerCase() === 'my ordered'))
                                         ? '3px solid #671E14'
                                         : 'none',
                                     px: '2%',
@@ -162,12 +185,18 @@ function TopBar() {
                                 <Button
                                     onClick={() => {
                                         handleCloseNavMenu;
-                                        router.push(`/user/${page.toLowerCase().replace(' ', '-')}`);
+                                        if (page.toLowerCase() === 'my ordered') {
+                                            router.push('/user/transaction-history');
+                                        }
+                                        else {
+                                            router.push(`/user/${page.toLowerCase().replace(' ', '-')}`);
+                                        }
                                     }}
                                     sx={{
                                         px: '1%',
                                         my: 2,
-                                        color: path.includes(page.toLowerCase().replace(' ', '-'))
+                                        color: (path.includes(page.toLowerCase().replace(' ', '-')) || 
+                                        (path.includes('transaction-history') && page.toLowerCase() === 'my ordered'))
                                             ? '#671E14'
                                             : 'black',
                                         letterSpacing: '.1rem',
@@ -187,7 +216,20 @@ function TopBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            <Avatar
+                                alt="Profile Picture"
+                                src={userProfile?.image}
+                                sx={{
+                                    width: 50,
+                                    height: 50,
+                                    border: '1px solid #472F05',
+                                    boxShadow: 10,
+                                    fontSize: 25,
+                                    fontFamily: fira_sans_600.style.fontFamily,
+                                }}
+                            >
+                                {userProfile?.username[0].toUpperCase()}
+                            </Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu

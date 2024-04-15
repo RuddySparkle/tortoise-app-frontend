@@ -1,19 +1,19 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import useGetSession from '../../core/auth/useGetSession';
 import useGetUserProfile from '../../services/api/v1/user/useGetUserProfile';
 import { CustomTextField } from '../../components/core/CustomInput/type';
-import UserProfileCard from '../../components/user/UserProfileCard';
 import { Address, IUserDetail, IUserUpdateParams, IUserUpdatePayload } from '../../services/api/v1/user/type';
 import { useForm } from 'react-hook-form';
 import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
 import { ColorButton } from '../../components/core/CustomInput/type';
 import { useUpdateUserProfile } from '@services/api/v1/user/useUpdateUserProfile';
 import useToastUI from '@core/hooks/useToastUI';
+import ImageUploader from '../../components/core/ImageDropbox';
 
 export default function EditUserProfilePage() {
     const router = useRouter();
@@ -23,9 +23,8 @@ export default function EditUserProfilePage() {
 
     const form = useForm<IUserUpdatePayload>();
 
-    if (!userProfileSuccess) {
-        return null;
-    }
+    const [images, setImages] = useState<File[]>([]);
+    const [base64Img, setBase64Img] = useState('')
 
     // useEffect(() => {
     //     form.setValue('first_name', form.getValues().first_name || userProfile.first_name);
@@ -52,18 +51,35 @@ export default function EditUserProfilePage() {
         },
     });
 
-    const handleUpdate = (updatedData: IUserDetail) => {
-        console.log('Updated data:', updatedData);
-        return updatedData;
-    };
-
     const onSubmit = async (data: IUserUpdatePayload) => {
+        let base64String = ''
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            base64String = String(reader.result)
+            setBase64Img(base64String) 
+        }
+        if(images.at(0)){
+            reader.readAsDataURL(images[0]);
+        }
+
+        if(base64Img == '' && images[0] !== undefined) {
+            return toastUI.toastWarning('Please wait for the image to upload.')
+        }
+        if(base64Img !== '') {
+            data.image = base64Img
+        }
+
         try {
             await mutateUpdateUserProfile({ user_id: session.userID, payload: data } as IUserUpdateParams);
         } catch (err) {
             console.log(err);
         }
     };
+
+    if (!userProfileSuccess) {
+        return null;
+    }
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
@@ -78,12 +94,39 @@ export default function EditUserProfilePage() {
             </Typography>
             <Box
                 sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    m: 5,
+                    py: 0,
+                    px: 3,
+                    border: '2px solid #472F05',
+                    borderRadius: 2,
+                    boxShadow: '3px 3px #472F05',
+                    backgroundColor: "#DDB892"
+                }}
+            >
+                <Box
+                    sx={{
+                        fontFamily: fira_sans_600.style.fontFamily,
+                        width: 450,
+                        paddingLeft: 1,
+                        paddingRight: 3,
+                        fontSize: 18,
+                    }}
+                >
+                    Upload your Profile Image:
+                </Box>
+                <ImageUploader images={images} setImages={setImages} {...form.register('image')} />
+            </Box>
+            <Box
+                sx={{
                     m: 5,
                     p: 5,
                     border: '3px solid #472F05',
                     boxShadow: '7px 7px #472F05',
                     borderRadius: 2,
-                    bgcolor: '#DDB892',
+                    bgcolor: '#FDE5BA',
                 }}
             >
                 <Box

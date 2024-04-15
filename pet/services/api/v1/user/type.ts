@@ -5,7 +5,7 @@ export interface IUserDetail {
     last_name: string;
     gender: string;
     phoneNumber: string;
-    image: string;
+    image?: string;
     address: Address;
 }
 
