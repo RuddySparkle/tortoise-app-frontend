@@ -127,7 +127,7 @@ export default function SellerReviewDialog(props: SellerReviewDialogProps) {
                                     Nobody has reviewed this shop yet.
                                 </Typography>
                             ) : null}
-                            {(sellerReviewData || ([] as SellerReview[])).map((item, idx) => (
+                            {((sellerReviewData || []) as SellerReview[]).map((item, idx) => (
                                 <SellerReviewItem
                                     reviewId={item.id}
                                     reviewNo={idx + 1}
