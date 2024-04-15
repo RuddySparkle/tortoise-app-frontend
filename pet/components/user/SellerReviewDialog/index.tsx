@@ -9,22 +9,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TransitionProps } from '@mui/material/transitions';
 import { fira_sans_400, fira_sans_600, fira_sans_800 } from '../../../core/theme/theme';
 import { Box, Grid, Zoom, InputAdornment, IconButton, Typography, Stack } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { IChangePassword, IChangePasswordParams } from '../../../services/api/v1/user/type';
-import { CustomPinkTextField } from '../../../core/theme/theme';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Visibility from '@mui/icons-material/Visibility';
-import { useState } from 'react';
 import useToastUI from '../../../core/hooks/useToastUI';
-import { CustomDialogProps } from '../../core/CustomDialog/type';
-import { useUpdateUserPassword } from '@services/api/v1/user/useUpdateUserPassword';
-import { useRouter } from 'next/navigation';
-import useGetSession from '@core/auth/useGetSession';
-import useLogout from '@core/auth/useLogout';
-import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import SellerReviewItem from '../SellerReviewItem';
-import useGetSellerReviews from '@services/api/v1/review/useGetSellerReview';
 import { SellerReview } from '@services/api/v1/review/type';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -47,16 +35,25 @@ type SellerReviewDialogProps = {
     sellerName: string;
     isMyShop: boolean;
     isAdmin?: boolean;
+    sellerReviewData: SellerReview[];
+    sellerReviewSuccess: boolean;
+    refetchReview: (options?: RefetchOptions) => Promise<QueryObserverResult<any, any>>;
 };
 
 export default function SellerReviewDialog(props: SellerReviewDialogProps) {
     const toastUI = useToastUI();
-    const { open, setOpen, header, description, cancelText, confirmText, sellerId } = props;
     const {
-        data: sellerReviewData,
-        isSuccess: sellerReviewSuccess,
-        refetch: refetchReview,
-    } = useGetSellerReviews(sellerId);
+        open,
+        setOpen,
+        header,
+        description,
+        cancelText,
+        confirmText,
+        sellerId,
+        sellerReviewData,
+        sellerReviewSuccess,
+        refetchReview,
+    } = props;
 
     const handleClose = () => {
         setOpen(false);
@@ -127,7 +124,7 @@ export default function SellerReviewDialog(props: SellerReviewDialogProps) {
                                     Nobody has reviewed this shop yet.
                                 </Typography>
                             ) : null}
-                            {(sellerReviewData || ([] as SellerReview[])).map((item, idx) => (
+                            {((sellerReviewData || []) as SellerReview[]).map((item, idx) => (
                                 <SellerReviewItem
                                     reviewId={item.id}
                                     reviewNo={idx + 1}
