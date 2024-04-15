@@ -3,13 +3,14 @@ import { IPetDetail, IPetUpdatePayload } from '../../../services/api/v1/pets/typ
 import { Box, TextField } from '@mui/material';
 import { fira_sans_600 } from '../../../core/theme/theme';
 import { CustomTextField } from '../../core/CustomInput/type';
-import SelectField from '../../core/SelectField';
-import { UseFormReturn } from 'react-hook-form';
+import SelectField, { SelectFieldChoice } from '../../core/SelectField';
+import { UseFormReturn, useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
+import useGetPetCategory, { IPetCategoryMasterData } from '@services/api/master/useGetPetCategory';
 
 interface PetEditCardProps extends IPetDetail {
     editMode: boolean;
-    form: UseFormReturn<IPetUpdatePayload, any, IPetUpdatePayload>;
+    form: UseFormReturn<IPetUpdatePayload, any, any>;
 }
 
 const DEMO_CHOICES = [
@@ -19,6 +20,17 @@ const DEMO_CHOICES = [
 
 export default function PetEditCard(props: PetEditCardProps) {
     const { form } = props;
+    const watcher = useWatch({ name: 'category', control: form.control });
+    const { data: petCategory, isSuccess: petCategorySuccess } = useGetPetCategory();
+    const petCategoryList = (petCategory || []) as IPetCategoryMasterData[];
+    const CATEGORY_CHOICES = (petCategoryList || []).map((category) => ({
+        label: category.category.replace(/^\w/, (first) => first.toUpperCase()),
+        value: category.category,
+    })) as SelectFieldChoice[];
+    const SPECIES_CHOICES = (
+        petCategoryList.find((eachCategory) => eachCategory.category === watcher)?.species || []
+    ).map((eachSpecies) => ({ label: eachSpecies, value: eachSpecies })) as SelectFieldChoice[];
+
     const columnsHeader: GridColDef[] = [
         { field: 'topic', headerName: 'Topic', flex: 2 },
         {
@@ -53,7 +65,7 @@ export default function PetEditCard(props: PetEditCardProps) {
                                 {...form.register(params.row?.name)}
                                 name={params.row?.name}
                                 defaultValue={params.value}
-                                choices={DEMO_CHOICES}
+                                choices={params.row?.choices?.length ? params.row?.choices : []}
                                 disabled={!props.editMode}
                                 setFormValue={(value) => {
                                     form.setValue(params.row?.name, value);
@@ -69,9 +81,16 @@ export default function PetEditCard(props: PetEditCardProps) {
     const petDetail = [
         { id: 1, name: 'name', topic: 'Name', value: props.name, type: 'text' },
         { id: 2, name: 'age', topic: 'Age', value: props.age, type: 'number' },
-        { id: 3, name: 'sex', topic: 'Gender', value: props.sex, type: 'select' },
-        { id: 4, name: 'category', topic: 'Category', value: props.category, type: 'select' },
-        { id: 5, name: 'species', topic: 'Species', value: props.species, type: 'select' },
+        { id: 3, name: 'sex', topic: 'Gender', value: props.sex, type: 'select', choices: DEMO_CHOICES },
+        {
+            id: 4,
+            name: 'category',
+            topic: 'Category',
+            value: props.category,
+            type: 'select',
+            choices: CATEGORY_CHOICES,
+        },
+        { id: 5, name: 'species', topic: 'Species', value: props.species, type: 'select', choices: SPECIES_CHOICES },
         { id: 6, name: 'weight', topic: 'Weight', value: props.weight, type: 'number' },
         { id: 7, name: 'behavior', topic: 'Behavior', value: props.behavior, type: 'text' },
         { id: 8, name: 'price', topic: 'Price', value: props.price, type: 'number' },

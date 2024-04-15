@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import useGetPetCategory, { IPetCategoryMasterData } from '../../services/api/master/useGetPetCategory';
-import {z} from 'zod'
+import { z } from 'zod';
 
 import {
     GridRowsProp,
@@ -44,8 +44,6 @@ const SEX_CHOICES = [
     { label: 'Male', value: 'Male' },
     { label: 'Female', value: 'Female' },
 ];
-
-
 
 const initialRows: GridRowsProp = [{ id: randomId(), medical_id: 'med1', medical_date: 'date1', description: 'desc1' }];
 
@@ -101,13 +99,13 @@ export default function AddPetForm() {
     const watcher = useWatch({ name: 'category', control: form.control });
     const toastUI = useToastUI();
 
-    const session = useGetSession()
+    const session = useGetSession();
 
     const { data: petCategory, isSuccess: petCategorySuccess } = useGetPetCategory();
     const petCategoryList = (petCategory || []) as IPetCategoryMasterData[];
 
     const [images, setImages] = useState<File[]>([]);
-    const [base64Img, setBase64Img] = useState('')
+    const [base64Img, setBase64Img] = useState('');
     const [rows, setRows] = useState(initialRows);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -121,16 +119,16 @@ export default function AddPetForm() {
         species: z.string().min(1),
         category: z.string().min(1),
         behavior: z.string().min(1),
-    })
+    });
     const validateInput = (input: IPetUpdatePayload): boolean => {
         try {
-            console.log(input)
-          userInputSchema.parse(input);
-          return true; // Input is valid
+            console.log(input);
+            userInputSchema.parse(input);
+            return true; // Input is valid
         } catch (error) {
-          return false; // Input is invalid
+            return false; // Input is invalid
         }
-      };
+    };
     // useEffect(()=>{
     //     form.setValue('media', images[0])
     // }, [images, setImages])
@@ -246,36 +244,34 @@ export default function AddPetForm() {
             toastUI.toastError('Pet creation failed');
         },
     });
-    
 
     const onSubmit = async (data: IPetUpdatePayload) => {
-        if(!validateInput(data)) {
-            return toastUI.toastError('Please fill the required fields.')
+        if (!validateInput(data)) {
+            return toastUI.toastError('Please fill the required fields.');
         }
-        const sellerId = session.userID;   
-        
-        let base64String = ''
+        const sellerId = session.userID;
+
+        let base64String = '';
         let reader = new FileReader();
 
         reader.onload = function () {
-            base64String = String(reader.result)
+            base64String = String(reader.result);
 
             // alert(base64String)
             // alert(imageBase64Stringsep);
-            setBase64Img(base64String) 
-        }
-        if(!images.at(0)){
-            return toastUI.toastError('Please add Pet Image')
-        }
-        else {
+            setBase64Img(base64String);
+        };
+        if (!images.at(0)) {
+            return toastUI.toastError('Please add Pet Image');
+        } else {
             reader.readAsDataURL(images[0]);
         }
 
-        console.log(base64Img)
-        console.log(base64String)
+        console.log(base64Img);
+        console.log(base64String);
 
-        if(base64Img == '') {
-            return toastUI.toastWarning('Please wait for the image to upload.')
+        if (base64Img == '') {
+            return toastUI.toastWarning('Please wait for the image to upload.');
         }
 
         data.is_sold = false;
@@ -287,7 +283,7 @@ export default function AddPetForm() {
             medic.push({ medical_id: d.medical_id, medical_date: d.medical_date, description: d.description }),
         );
         data.medical_records = medic;
-        data.media = base64Img
+        data.media = base64Img;
 
         try {
             await mutateCreatePet({ sellerId: sellerId, payload: data } as IPetCreateParams);
