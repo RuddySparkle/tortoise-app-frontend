@@ -1,26 +1,32 @@
-import { Box, Grid, Typography, Stack, Button, ButtonBase } from "@mui/material"
-import { fira_sans_400, fira_sans_600, fira_sans_800 } from "@core/theme/theme"
-import useGetUserProfile from "@services/api/v1/user/useGetUserProfile"
-import SellerReviewDialog from "@components/user/SellerReviewDialog"
-import { useState } from "react"
-import useGetSellerProfile from "@services/api/v1/seller/useGetSellerProfile"
+import { Box, Grid, Typography, Stack, Button, ButtonBase } from '@mui/material';
+import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import SellerReviewDialog from '@components/user/SellerReviewDialog';
+import { useState } from 'react';
+import useGetSellerProfile from '@services/api/v1/seller/useGetSellerProfile';
+import useGetSellerReviews from '@services/api/v1/review/useGetSellerReview';
+import { SellerReview } from '@services/api/v1/review/type';
 
 interface sellerProps {
-    sellerId: string,
+    sellerId: string;
 }
 
 export default function SellerCardForAdmin(props: sellerProps) {
-
     const [openSellerReviewDialog, setOpenSellerReviewDialog] = useState(false);
     const handleSellerReviewDialog = async () => {
         console.log('Seller Review Dialog');
     };
 
     const { data: sellerProfile, isSuccess: sellerProfileSuccess } = useGetSellerProfile(props.sellerId || '');
-    if(!sellerProfileSuccess) {
-        return null
+    const {
+        data: sellerReviewData,
+        isSuccess: sellerReviewSuccess,
+        refetch: refetchReview,
+    } = useGetSellerReviews(props.sellerId || '');
+    if (!sellerProfileSuccess) {
+        return null;
     }
-    console.log(sellerProfile)
+    console.log(sellerProfile);
 
     return (
         <Grid item xs={12} md={4}>
@@ -34,10 +40,13 @@ export default function SellerCardForAdmin(props: sellerProps) {
                 sellerName={sellerProfile.first_name}
                 isMyShop={false}
                 isAdmin={true}
+                sellerReviewData={(sellerReviewData || []) as SellerReview[]}
+                sellerReviewSuccess={Boolean(sellerReviewSuccess)}
+                refetchReview={refetchReview}
             />
             <ButtonBase
                 sx={{
-                    width: '100%'
+                    width: '100%',
                 }}
                 onClick={() => setOpenSellerReviewDialog(true)}
             >
@@ -55,8 +64,8 @@ export default function SellerCardForAdmin(props: sellerProps) {
                         overflowWrap: '-moz-initial',
                         overflowX: 'hidden',
                         '&:hover': {
-                            backgroundColor: "#78A1B5"
-                        }
+                            backgroundColor: '#78A1B5',
+                        },
                     }}
                 >
                     <Box
@@ -64,7 +73,7 @@ export default function SellerCardForAdmin(props: sellerProps) {
                         display={'block'}
                         width={'100%'}
                         sx={{
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
                         }}
                     >
                         <Typography
@@ -80,7 +89,7 @@ export default function SellerCardForAdmin(props: sellerProps) {
                             {sellerProfile.first_name} {sellerProfile.last_name}
                         </Typography>
                     </Box>
-                    
+
                     <Stack direction={'row'} spacing={1} textAlign={'center'} flex={'row'} justifyContent={'center'}>
                         <Typography
                             fontFamily={fira_sans_600.style.fontFamily}
@@ -88,7 +97,7 @@ export default function SellerCardForAdmin(props: sellerProps) {
                             textAlign={'center'}
                             color={'#213948'}
                         >
-                            License: 
+                            License:
                         </Typography>
                         <Typography
                             fontFamily={fira_sans_400.style.fontFamily}
@@ -111,5 +120,5 @@ export default function SellerCardForAdmin(props: sellerProps) {
                 </Box>
             </ButtonBase>
         </Grid>
-    )
+    );
 }

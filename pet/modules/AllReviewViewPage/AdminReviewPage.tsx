@@ -1,21 +1,16 @@
-'use client'
+'use client';
 
-import SellerCardForAdmin from "@components/admin/SellerCardForAdmin";
-import { fira_sans_800 } from "@core/theme/theme";
-import { Box, Typography, Grid } from "@mui/material";
-import useGetSellers from "@services/api/v1/seller/useGetSellers";
-
-const mockSeller = [
-    {sellerId: '65c7356900dfa761aed36131'}
-]
+import SellerCardForAdmin from '@components/admin/SellerCardForAdmin';
+import { fira_sans_800 } from '@core/theme/theme';
+import { Box, Typography, Grid } from '@mui/material';
+import useGetSellers from '@services/api/v1/seller/useGetSellers';
 
 export default function AdminReviewPage() {
-
     const { data: sellers, isSuccess: sellerProfileSuccess } = useGetSellers();
-    if(!sellerProfileSuccess){
-        return null
+    if (!sellerProfileSuccess) {
+        return null;
     }
-    console.log(sellers)
+    console.log(sellers);
 
     return (
         <Box
@@ -27,7 +22,7 @@ export default function AdminReviewPage() {
             borderRadius={0}
             boxShadow={'8px 8px #315369'}
             sx={{
-                backgroundColor: 'whitesmoke'
+                backgroundColor: 'whitesmoke',
             }}
         >
             <Typography
@@ -49,16 +44,11 @@ export default function AdminReviewPage() {
                 }}
             >
                 <Grid container spacing={4} p={2}>
-                    {
-                        sellers.map(item => 
-                            <SellerCardForAdmin sellerId={item.id} />
-                        )
-                    }
+                    {(sellers || []).map((item) => (
+                        <SellerCardForAdmin sellerId={item.id} />
+                    ))}
                 </Grid>
             </Box>
-            
-            
-            
         </Box>
-    )
+    );
 }

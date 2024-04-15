@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { useState } from 'react';
 import SellerReviewDialog from '../SellerReviewDialog';
+import useGetSellerReviews from '@services/api/v1/review/useGetSellerReview';
+import { SellerReview } from '@services/api/v1/review/type';
 
 export default function SellerProfileCard({ sellerId }: { sellerId: string }) {
     const [openSellerReviewDialog, setOpenSellerReviewDialog] = useState(false);
@@ -15,6 +17,11 @@ export default function SellerProfileCard({ sellerId }: { sellerId: string }) {
         console.log('Seller Review Dialog');
     };
     const { data: sellerProfile, isSuccess: sellerProfileSuccess } = useGetUserProfile(sellerId || '');
+    const {
+        data: sellerReviewData,
+        isSuccess: sellerReviewSuccess,
+        refetch: refetchReview,
+    } = useGetSellerReviews(sellerId);
 
     if (!sellerProfileSuccess) {
         return null;
@@ -39,6 +46,9 @@ export default function SellerProfileCard({ sellerId }: { sellerId: string }) {
                 sellerId={sellerId}
                 sellerName={sellerProfile.username}
                 isMyShop={false}
+                sellerReviewData={(sellerReviewData || []) as SellerReview[]}
+                sellerReviewSuccess={Boolean(sellerReviewSuccess)}
+                refetchReview={refetchReview}
             />
             <Card
                 sx={{ border: '2px solid black', boxShadow: '5px 4px #472F05', backgroundColor: '#F3DDD1', py: '8px' }}
