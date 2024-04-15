@@ -8,7 +8,7 @@ export default function useGetPetByID(queryParams: IPetQueryParams, queryOptions
         queryFn: async () => {
             const petId = queryParams?.petId;
             try {
-                const response = await requestClient.get(`api/v1/pets/${petId}`);
+                const response = await requestClient.get(`api/v1/pets/pet/${petId}`);
                 const data = await response.data;
                 return data as IPetDetail;
             } catch (error) {

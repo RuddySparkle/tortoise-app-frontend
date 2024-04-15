@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import useGetPetCategory, { IPetCategoryMasterData } from '../../services/api/master/useGetPetCategory';
+import {z} from 'zod'
 
 import {
     GridRowsProp,
@@ -33,6 +34,9 @@ import { fira_sans_600 } from '../../core/theme/theme';
 import SelectField, { SelectFieldChoice } from '../../components/core/SelectField';
 import { useCreatePet } from '../../services/api/v1/pets/useCreatePet';
 import useToastUI from '../../core/hooks/useToastUI';
+import { getSession } from 'next-auth/react';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import useGetSession from '@core/auth/useGetSession';
 
 const fira_sans_condensed = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -101,13 +105,36 @@ export default function AddPetForm() {
     const watcher = useWatch({ name: 'category', control: form.control });
     const toastUI = useToastUI();
 
+    const session = useGetSession()
+
     const { data: petCategory, isSuccess: petCategorySuccess } = useGetPetCategory();
     const petCategoryList = (petCategory || []) as IPetCategoryMasterData[];
 
     const [images, setImages] = useState<File[]>([]);
+    const [base64Img, setBase64Img] = useState('')
     const [rows, setRows] = useState(initialRows);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
+    const userInputSchema = z.object({
+        name: z.string().min(1),
+        age: z.string().min(1),
+        price: z.string().min(1),
+        description: z.string().min(1),
+        weight: z.string().min(1),
+        sex: z.string().min(1),
+        species: z.string().min(1),
+        category: z.string().min(1),
+        behavior: z.string().min(1),
+    })
+    const validateInput = (input: IPetUpdatePayload): boolean => {
+        try {
+            console.log(input)
+          userInputSchema.parse(input);
+          return true; // Input is valid
+        } catch (error) {
+          return false; // Input is invalid
+        }
+      };
     // useEffect(()=>{
     //     form.setValue('media', images[0])
     // }, [images, setImages])
@@ -223,19 +250,49 @@ export default function AddPetForm() {
             toastUI.toastError('Pet creation failed');
         },
     });
+    
 
     const onSubmit = async (data: IPetUpdatePayload) => {
-        const sellerId = '65c7356900dfa761aed36120';
+        if(!validateInput(data)) {
+            return toastUI.toastError('Please fill the required fields.')
+        }
+        const sellerId = session.userID;   
+        
+        let base64String = ''
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            base64String = String(reader.result)
+
+            // alert(base64String)
+            // alert(imageBase64Stringsep);
+            setBase64Img(base64String) 
+        }
+        if(!images.at(0)){
+            return toastUI.toastError('Please add Pet Image')
+        }
+        else {
+            reader.readAsDataURL(images.at(0));
+        }
+
+        console.log(base64Img)
+        console.log(base64String)
+
+        if(base64Img == '') {
+            return toastUI.toastWarning('Please wait for the image to upload.')
+        }
+
         data.is_sold = false;
         data.age = Number(data.age);
         data.price = Number(data.price);
         data.weight = Number(data.weight);
-        data.media = '';
         const medic = new Array<MedicalRecord>();
         rows.map((d) =>
             medic.push({ medical_id: d.medical_id, medical_date: d.medical_date, description: d.description }),
         );
         data.medical_records = medic;
+        data.media = base64Img
+
         try {
             await mutateCreatePet({ sellerId: sellerId, payload: data } as IPetCreateParams);
         } catch (err) {

@@ -10,7 +10,7 @@ const fetchPetList = async (queryParams: PetSearchParams) => {
             Object.entries(queryParams).filter(([_, value]) => Boolean(value)),
         );
         const queryParamsString = new URLSearchParams(filteredQueryParams as Record<string, string>).toString();
-        const response = await requestClient.get(`api/v1/pets/filter?${queryParamsString}`);
+        const response = await requestClient.get(`api/v1/pets/?${queryParamsString}`);
         return [response.data as IPetProfile[], response.data.pagination as Pagination];
     } catch (error) {
         toastError('Failed loading pet lists');

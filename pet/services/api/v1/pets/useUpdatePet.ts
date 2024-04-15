@@ -14,7 +14,7 @@ export const useUpdatePet = ({
         mutationFn: async (params: IPetUpdateParams) => {
             const { petId, payload } = params;
             try {
-                const response: IAxiosResponse = await requestClient.put(`api/v1/pets/${petId}`, payload);
+                const response: IAxiosResponse = await requestClient.put(`api/v1/pets/pet/${petId}`, payload);
                 if (!response.success) {
                     throw new Error() as AxiosError;
                 }

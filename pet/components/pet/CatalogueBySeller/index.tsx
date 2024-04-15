@@ -41,8 +41,8 @@ export default function CatalogueBySeller() {
                         <PetCard
                             petId={eachpetCard.id}
                             petName={eachpetCard.name}
-                            breed={eachpetCard.category}
-                            seller={`${eachpetCard.seller_name} ${eachpetCard.seller_surname}`}
+                            category={eachpetCard.category}
+                            seller={session.userID}
                             price={eachpetCard.price}
                             imgSrc={eachpetCard.media}
                         />

@@ -10,12 +10,13 @@ import useToastUI from '../../../core/hooks/useToastUI';
 import { Typography } from '@mui/material';
 import { PetSearchParams } from '@services/api/v1/pets/type';
 import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 
 export interface PetCardProps {
     petId: string;
     petName: string;
-    breed: string;
-    seller: string;
+    category: string;
+    seller: string | null;
     price: number;
     imgSrc: string;
 }
@@ -82,8 +83,8 @@ export default function PetCatalogue(props: petFilterType) {
                             <PetCard
                                 petId={eachpetCard.id}
                                 petName={eachpetCard.name}
-                                breed={eachpetCard.category}
-                                seller={`${eachpetCard.seller_name} ${eachpetCard.seller_surname}`}
+                                category={eachpetCard.category}
+                                seller={eachpetCard.seller_id}
                                 price={eachpetCard.price}
                                 imgSrc={eachpetCard.media}
                             />
