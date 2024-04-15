@@ -45,11 +45,7 @@ const SEX_CHOICES = [
     { label: 'Female', value: 'Female' },
 ];
 
-const SPECIES_CHOICES = [
-    { label: 'Pug', value: 'Pug' },
-    { label: 'Puddle', value: 'Puddle' },
-    { label: 'Samoi', value: 'Samoi' },
-];
+
 
 const initialRows: GridRowsProp = [{ id: randomId(), medical_id: 'med1', medical_date: 'date1', description: 'desc1' }];
 
@@ -272,7 +268,7 @@ export default function AddPetForm() {
             return toastUI.toastError('Please add Pet Image')
         }
         else {
-            reader.readAsDataURL(images.at(0));
+            reader.readAsDataURL(images[0]);
         }
 
         console.log(base64Img)

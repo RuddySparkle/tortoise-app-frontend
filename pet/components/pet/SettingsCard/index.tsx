@@ -22,6 +22,7 @@ import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { fira_sans_800 } from '@core/theme/theme';
 import SellerShopBriefCard from '@components/user/SellerShopBriefCard';
 import SellerProfileCard from '@components/user/SellerProfileCard';
+import useGetSession from '@core/auth/useGetSession';
 
 const fira_sans_600 = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -32,6 +33,8 @@ const theme = createTheme({
 });
 
 export default function SettingsCard(props: IPetDetail) {
+
+    const session = useGetSession()
 
     const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
         color: theme.palette.getContrastText('#F9C067'),
@@ -134,35 +137,39 @@ export default function SettingsCard(props: IPetDetail) {
                         Price: ฿{props.price}
                     </Typography>
                 </Box>
-                <Box sx={{ width: 'auto', height: 'auto', }}>
-                    <Button
-                        onClick={() => {
-                            router.push(`${props.id}/checkout`);
-                        }}
-                        sx={{
-                            '&.MuiButton-root': {
-                                border: '2px solid #472F05',
-                                boxShadow: '3px 3px #472F05',
-                                color: '#472F05',
-                                borderRadius: 0,
-                                backgroundColor: '#FAA943',
-                                px: 2,
-                                py: 1,
-                            },
-                            '&:hover': {
-                                backgroundColor: '#F79762',
-                            },
-                        }}
-                    >
-                        <Typography
-                            fontFamily={fira_sans_800.style.fontFamily}
-                            fontSize={18}
-                            color={'#472F05'}
+                {
+                    session.role == 'seller' ? null :
+                    <Box sx={{ width: 'auto', height: 'auto', }}>
+                        <Button
+                            onClick={() => {
+                                router.push(`${props.id}/checkout`);
+                            }}
+                            sx={{
+                                '&.MuiButton-root': {
+                                    border: '2px solid #472F05',
+                                    boxShadow: '3px 3px #472F05',
+                                    color: '#472F05',
+                                    borderRadius: 0,
+                                    backgroundColor: '#FAA943',
+                                    px: 2,
+                                    py: 1,
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#F79762',
+                                },
+                            }}
                         >
-                            Buy Now!
-                        </Typography>
-                    </Button>
-                </Box>
+                            <Typography
+                                fontFamily={fira_sans_800.style.fontFamily}
+                                fontSize={18}
+                                color={'#472F05'}
+                            >
+                                Buy Now!
+                            </Typography>
+                        </Button>
+                    </Box>
+                }
+                
             </Box>
             
         </Box>

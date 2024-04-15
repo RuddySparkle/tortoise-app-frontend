@@ -17,13 +17,18 @@ import PetEditCard from '../../components/pet/PetEditCard';
 import SaveIcon from '@mui/icons-material/Save';
 import { useForm } from 'react-hook-form';
 import { useUpdatePet } from '../../services/api/v1/pets/useUpdatePet';
-import { fira_sans_600 } from '../../core/theme/theme';
+import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
+import useToastUI from '@core/hooks/useToastUI';
+import ImageUploader from '../../components/core/ImageDropbox';
 
 export default function EditPetForm() {
+    const toastUI = useToastUI();
     const params = useParams();
     const router = useRouter();
     const [editMode, setEditMode] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [images, setImages] = useState<File[]>([]);
+    const [base64Img, setBase64Img] = useState('')
     const form = useForm<IPetUpdatePayload>();
     const petParams: IPetQueryParams = {
         petId: params?.petId as string,
@@ -69,7 +74,24 @@ export default function EditPetForm() {
             } as IPetUpdatePayload),
             ...data,
         };
-        console.log(updateData)
+        let base64String = ''
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            base64String = String(reader.result)
+            setBase64Img(base64String) 
+        }
+        if(images.at(0)){
+            reader.readAsDataURL(images[0]);
+        }
+
+        if(base64Img == '' && images[0] !== undefined) {
+            return toastUI.toastWarning('Please wait for the image to upload.')
+        }
+        if(base64Img !== '') {
+            updateData.media = base64Img
+        }
+        console.log(updateData);
         try {
             await mutateUpdatePet({ petId: petParams.petId, payload: updateData } as IPetUpdateParams);
             refetch();
@@ -82,9 +104,32 @@ export default function EditPetForm() {
 
     return (
         <form onSubmit={form.handleSubmit(handleSubmitEdit)} noValidate>
-            <Typography sx={{ mt: 4, fontFamily: fira_sans_600.style.fontFamily, textAlign: 'center', fontSize: 30 }}>
-                Edit your Pet Information Here
-            </Typography>
+            {petFullDetail.is_sold ? (
+                <Typography
+                    sx={{
+                        mt: 4,
+                        fontFamily: fira_sans_800.style.fontFamily,
+                        textAlign: 'center',
+                        fontSize: 30,
+                        color: '#472F05',
+                    }}
+                >
+                    This pet has been sold!
+                </Typography>
+            ) : (
+                <Typography
+                    sx={{
+                        mt: 4,
+                        fontFamily: fira_sans_800.style.fontFamily,
+                        textAlign: 'center',
+                        fontSize: 30,
+                        color: '#472F05',
+                    }}
+                >
+                    Edit your Pet Information Here
+                </Typography>
+            )}
+
             <Box sx={{ alignSelf: 'center', marginTop: 1 }}>
                 <ConfirmDialog
                     open={openDialog}
@@ -94,80 +139,82 @@ export default function EditPetForm() {
                     confirmText="Delete"
                     handleConfirm={handleDelete}
                 />
-                <Box sx={{ px: 7, textAlign: 'end', float: 'inline-end', display: 'flex', flexDirection: 'row' }}>
-                    <Button
-                        sx={{
-                            display: editMode ? 'none' : 'flex',
-                            // backgroundColor: 'whitesmoke',
-                            '&.MuiButton-root': {
-                                border: '2px solid #472F05',
-                                boxShadow: '3px 3px #472F05',
-                                color: '#472F05',
-                                borderRadius: 0,
-                                backgroundColor: '#FAA943',
-                                px: 2,
-                            },
-                            '&:hover': {
-                                backgroundColor: '#F79762',
-                            },
-                        }}
-                        onClick={() => {
-                            setEditMode(true);
-                        }}
-                    >
-                        {<EditIcon />}
-                        <Typography
-                            sx={{ fontFamily: fira_sans_600.style.fontFamily, fontSize: 18 }}
-                        >{`Edit`}</Typography>
-                    </Button>
-                    <Button
-                        type="submit"
-                        sx={{
-                            display: editMode ? 'flex' : 'none',
-                            '&.MuiButton-root': {
-                                border: '2px solid #472F05',
-                                boxShadow: '3px 3px #472F05',
-                                color: '#472F05',
-                                borderRadius: 0,
-                                backgroundColor: '#FAA943',
-                                px: 2,
-                            },
-                            '&:hover': {
-                                backgroundColor: '#F79762',
-                            },
-                        }}
-                        onClick={() => {
-                            setEditMode(false);
-                        }}
-                    >
-                        {<SaveIcon />}
-                        <Typography sx={{ fontFamily: fira_sans_600.style.fontFamily }}>{`Save`}</Typography>
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            setOpenDialog(true);
-                        }}
-                        sx={{
-                            '&.MuiButton-root': {
-                                border: '2px solid #472F05',
-                                boxShadow: '3px 3px #472F05',
-                                color: '#472F05',
-                                borderRadius: 0,
-                                backgroundColor: '#E18A7A',
-                                px: 2,
-                                mx: 2,
-                            },
-                            '&:hover': {
-                                backgroundColor: '#E2725B',
-                            },
-                        }}
-                    >
-                        <DeleteIcon />
-                        <Typography
-                            sx={{ fontFamily: fira_sans_600.style.fontFamily, fontSize: 18 }}
-                        >{`Delete`}</Typography>
-                    </Button>
-                </Box>
+                {petFullDetail.is_sold ? null : (
+                    <Box sx={{ px: 7, textAlign: 'end', float: 'inline-end', display: 'flex', flexDirection: 'row' }}>
+                        <Button
+                            sx={{
+                                display: editMode ? 'none' : 'flex',
+                                // backgroundColor: 'whitesmoke',
+                                '&.MuiButton-root': {
+                                    border: '2px solid #472F05',
+                                    boxShadow: '3px 3px #472F05',
+                                    color: '#472F05',
+                                    borderRadius: 0,
+                                    backgroundColor: '#FAA943',
+                                    px: 2,
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#F79762',
+                                },
+                            }}
+                            onClick={() => {
+                                setEditMode(true);
+                            }}
+                        >
+                            {<EditIcon />}
+                            <Typography
+                                sx={{ fontFamily: fira_sans_600.style.fontFamily, fontSize: 18 }}
+                            >{`Edit`}</Typography>
+                        </Button>
+                        <Button
+                            type="submit"
+                            sx={{
+                                display: editMode ? 'flex' : 'none',
+                                '&.MuiButton-root': {
+                                    border: '2px solid #472F05',
+                                    boxShadow: '3px 3px #472F05',
+                                    color: '#472F05',
+                                    borderRadius: 0,
+                                    backgroundColor: '#FAA943',
+                                    px: 2,
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#F79762',
+                                },
+                            }}
+                            onClick={() => {
+                                setEditMode(false);
+                            }}
+                        >
+                            {<SaveIcon />}
+                            <Typography sx={{ fontFamily: fira_sans_600.style.fontFamily }}>{`Save`}</Typography>
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setOpenDialog(true);
+                            }}
+                            sx={{
+                                '&.MuiButton-root': {
+                                    border: '2px solid #472F05',
+                                    boxShadow: '3px 3px #472F05',
+                                    color: '#472F05',
+                                    borderRadius: 0,
+                                    backgroundColor: '#E18A7A',
+                                    px: 2,
+                                    mx: 2,
+                                },
+                                '&:hover': {
+                                    backgroundColor: '#E2725B',
+                                },
+                            }}
+                        >
+                            <DeleteIcon />
+                            <Typography
+                                sx={{ fontFamily: fira_sans_600.style.fontFamily, fontSize: 18 }}
+                            >{`Delete`}</Typography>
+                        </Button>
+                    </Box>
+                )}
                 <Grid container direction="column" sx={{ overflowX: 'hidden', flexWrap: 'nowrap', mb: 3 }}>
                     <Grid
                         container
@@ -185,10 +232,33 @@ export default function EditPetForm() {
                             md={5}
                             sx={{ alignSelf: { xs: 'center', md: 'normal' }, justifySelf: 'center', mt: 3 }}
                         >
-                            <ProfileCard petImage={petFullDetail.media} />
+                            <Box
+                                display={'flex'}
+                                flexDirection={'column'}
+                                border={'2px solid #472F05'}
+                                borderRadius={1}
+                                boxShadow={'4px 4px #472F05'}
+                                p={3}
+                                pb={3}
+                                mb={3}
+                                sx={{
+                                    backgroundColor: '#FDE5BA'
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection :'row',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <ProfileCard petImage={petFullDetail.media} />
+                                </Box>
+                            </Box>
                         </Grid>
 
                         <Grid item md={7}>
+                            
                             <PetEditCard
                                 form={form}
                                 id={petFullDetail.id}
@@ -207,6 +277,33 @@ export default function EditPetForm() {
                                 weight={petFullDetail.weight}
                                 editMode={editMode}
                             />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    m: 5,
+                                    py: 0,
+                                    px: 3,
+                                    border: '2px solid #472F05',
+                                    borderRadius: 2,
+                                    boxShadow: '3px 3px #472F05',
+                                    backgroundColor: "#DDB892"
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        fontFamily: fira_sans_600.style.fontFamily,
+                                        width: 450,
+                                        paddingLeft: 1,
+                                        paddingRight: 3,
+                                        fontSize: 18,
+                                    }}
+                                >
+                                    Upload your Profile Image:
+                                </Box>
+                                <ImageUploader images={images} setImages={setImages} {...form.register('media')} />
+                            </Box>
                         </Grid>
                     </Grid>
                 </Grid>

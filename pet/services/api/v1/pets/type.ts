@@ -44,7 +44,7 @@ export interface IPetUpdatePayload {
     species: string;
     category: string;
     behavior: string;
-    media: string;
+    media?: string;
     medical_records: MedicalRecord[];
 }
 
