@@ -16,6 +16,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useToastUI from '../../../core/hooks/useToastUI';
 import { CustomDialogProps } from '../../core/CustomDialog/type';
+import useGetSession from '@core/auth/useGetSession';
+import { useDeleteUser } from '@services/api/v1/user/useDeleteUser';
+import useLogout from '@core/auth/useLogout';
 
 interface ConfirmDeleteInput {
     password: string;
@@ -35,18 +38,25 @@ export default function DeleteUserDialog(props: CustomDialogProps) {
 
     const toastUI = useToastUI();
     const router = useRouter();
-
+    const session = useGetSession();
     const [showPassword, setShowPassword] = useState(false);
 
     const form = useForm<ConfirmDeleteInput>();
 
-    const onSubmit = async (data: ConfirmDeleteInput) => {
-        //mock showing data
-        console.log(data);
+    const deleteUser = useDeleteUser({
+        onSuccess: () => {
+            toastUI.toastSuccess('Deleted User Successfully');
+            useLogout();
+            router.push('/user/login');
+        },
+        onError: (error) => {
+            toastUI.toastError(error.message);
+        },
+    });
 
-        toastUI.toastSuccess('Deleted User Success (Mock!)');
+    const onSubmit = async (data: ConfirmDeleteInput) => {
+        deleteUser.mutate(session.userID);
         handleClose();
-        router.push('/');
     };
 
     const handleClose = () => {

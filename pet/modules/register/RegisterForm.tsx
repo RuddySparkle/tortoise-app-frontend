@@ -132,7 +132,7 @@ export default function RegisterForm() {
                     overflow: 'scroll',
                 }}
             >
-                <CustomTextField {...form.register('role')} select label="Role" defaultValue={2} sx={sxTextField}>
+                <CustomTextField {...form.register('role')} select label="Role" sx={sxTextField}>
                     {roles.map((option) => (
                         <MenuItem
                             key={option.value}
