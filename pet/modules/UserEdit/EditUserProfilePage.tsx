@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import { MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import useGetSession from '../../core/auth/useGetSession';
 import useGetUserProfile from '../../services/api/v1/user/useGetUserProfile';
@@ -15,6 +15,11 @@ import { useUpdateUserProfile } from '@services/api/v1/user/useUpdateUserProfile
 import useToastUI from '@core/hooks/useToastUI';
 import ImageUploader from '../../components/core/ImageDropbox';
 
+const SEX_CHOICES = [
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
+];
+
 export default function EditUserProfilePage() {
     const router = useRouter();
     const session = useGetSession();
@@ -24,7 +29,7 @@ export default function EditUserProfilePage() {
     const form = useForm<IUserUpdatePayload>();
 
     const [images, setImages] = useState<File[]>([]);
-    const [base64Img, setBase64Img] = useState('')
+    const [base64Img, setBase64Img] = useState('');
 
     // useEffect(() => {
     //     form.setValue('first_name', form.getValues().first_name || userProfile.first_name);
@@ -52,25 +57,26 @@ export default function EditUserProfilePage() {
     });
 
     const onSubmit = async (data: IUserUpdatePayload) => {
-        let base64String = ''
+        let base64String = '';
         let reader = new FileReader();
 
         reader.onload = function () {
-            base64String = String(reader.result)
-            setBase64Img(base64String) 
-        }
-        if(images.at(0)){
+            base64String = String(reader.result);
+            setBase64Img(base64String);
+        };
+        if (images.at(0)) {
             reader.readAsDataURL(images[0]);
         }
 
-        if(base64Img == '' && images[0] !== undefined) {
-            return toastUI.toastWarning('Please wait for the image to upload.')
+        if (base64Img == '' && images[0] !== undefined) {
+            return toastUI.toastWarning('Please wait for the image to upload.');
         }
-        if(base64Img !== '') {
-            data.image = base64Img
+        if (base64Img !== '') {
+            data.image = base64Img;
         }
 
         try {
+            console.log(data);
             await mutateUpdateUserProfile({ user_id: session.userID, payload: data } as IUserUpdateParams);
         } catch (err) {
             console.log(err);
@@ -103,7 +109,7 @@ export default function EditUserProfilePage() {
                     border: '2px solid #472F05',
                     borderRadius: 2,
                     boxShadow: '3px 3px #472F05',
-                    backgroundColor: "#DDB892"
+                    backgroundColor: '#DDB892',
                 }}
             >
                 <Box
@@ -166,6 +172,27 @@ export default function EditUserProfilePage() {
                         <Grid item xs={12} md={6}>
                             <CustomTextField
                                 {...form.register('gender')}
+                                select
+                                fullWidth
+                                label="Gender"
+                                defaultValue={userProfile.gender}
+                            >
+                                {SEX_CHOICES.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            fontFamily: fira_sans_600.style.fontFamily,
+                                            '&:hover': { backgroundColor: '#F3DDD1' },
+                                            '&:focus': { backgroundColor: 'rgb(272, 174, 133) !important' },
+                                        }}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </CustomTextField>
+                            {/* <CustomTextField
+                                {...form.register('gender')}
                                 name={'gender'}
                                 label="Gender"
                                 variant="outlined"
@@ -173,7 +200,7 @@ export default function EditUserProfilePage() {
                                 type={'text'}
                                 fullWidth
                                 // disabled={}
-                            />
+                            /> */}
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <CustomTextField
