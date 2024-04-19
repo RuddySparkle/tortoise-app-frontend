@@ -47,7 +47,7 @@ export default function MarketplacePage() {
     //     return null;
     // }
 
-    const [petFilters, setPetFilters] = useState(new Object as PetSearchParams)
+    const [petFilters, setPetFilters] = useState(new Object() as PetSearchParams);
 
     const carouselItems = [
         'https://drive.google.com/uc?id=17CcoKvTnth9Cm2Dm2XNQ3MmB-vNx0Mof',
@@ -55,12 +55,11 @@ export default function MarketplacePage() {
     ];
 
     useEffect(() => {
-        console.log(petFilters)
-    }, [petFilters])
+        console.log(petFilters);
+    }, [petFilters]);
 
     return (
         <Box sx={{ textAlign: '-webkit-center' }}>
-
             {/* <NewUserDialog
                 open={openNewUserDialog}
                 setOpen={handleNewUserProfile}
@@ -69,15 +68,15 @@ export default function MarketplacePage() {
                 confirmText="Create Profile"
                 handleConfirm={handleNewUserProfile}
             /> */}
-            {/* <Box sx={{ height: '50vh', p: '24px 10% 8px' }}>
+            <Box sx={{ height: '50vh', p: '24px 10% 8px' }}>
                 <ImageCarousel itemLists={carouselItems} />
-            </Box> */}
+            </Box>
 
             {/* <Box sx={{ p: '32px 10% 8px' }}>
                 <SearchField />
             </Box> */}
             <Box sx={{ p: '32px 10% 8px' }}>
-                <FilterBar onFiltersChange={setPetFilters}/>
+                <FilterBar onFiltersChange={setPetFilters} />
             </Box>
             <Box sx={{ p: '16px 6%' }}>
                 <PetCatalogue petFilters={petFilters} />
