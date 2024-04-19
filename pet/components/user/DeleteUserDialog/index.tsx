@@ -55,7 +55,7 @@ export default function DeleteUserDialog(props: CustomDialogProps) {
     });
 
     const onSubmit = async (data: ConfirmDeleteInput) => {
-        deleteUser.mutate(session.userID);
+        deleteUser.mutate(session?.userID || '');
         handleClose();
     };
 

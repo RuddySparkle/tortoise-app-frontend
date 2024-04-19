@@ -27,10 +27,11 @@ export default function SellerShopBriefCard() {
     }
 
     const sellerAverageReviewScore = ((sellerReviewData || []) as SellerReview[]).length
-        ? ((sellerReviewData || []) as SellerReview[])?.reduce((acc, review) => acc + review.rating_score, 0) /
-          ((sellerReviewData || []) as SellerReview[]).length
-        : 0;
-
+        ? (
+              ((sellerReviewData || []) as SellerReview[])?.reduce((acc, review) => acc + review.rating_score, 0) /
+              ((sellerReviewData || []) as SellerReview[]).length
+          ).toFixed(2)
+        : 'No Ratings Yet';
     return (
         <Box
             sx={{
@@ -120,7 +121,7 @@ export default function SellerShopBriefCard() {
                                 Rating:{' '}
                             </Typography>
                             <Typography fontFamily={fira_sans_400.style.fontFamily} fontSize={20}>
-                                {sellerAverageReviewScore.toFixed(2) || 'No Ratings Yet'}
+                                {sellerAverageReviewScore}
                             </Typography>
                         </Stack>
                     </Stack>
