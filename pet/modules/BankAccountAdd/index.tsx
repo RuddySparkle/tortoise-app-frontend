@@ -19,11 +19,11 @@ export default function AddBankForm() {
 
     const { mutateAsync: mutateCreateBankAccount } = useCreateBankAccount({
         onSuccess: () => {
-            toastUI.toastSuccess('Pet created successfully');
+            toastUI.toastSuccess('Bank Account Created!');
             router.push('/user/my-shop');
         },
         onError: () => {
-            toastUI.toastError('Pet creation failed');
+            toastUI.toastError('Bank Account Creation Failed!');
         },
     });
 

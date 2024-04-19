@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-export default function PetAddCard() {
+export default function PetAddCard({status}: {status: string}) {
     const [hover, setHover] = useState(false);
     const router = useRouter();
 
     function onMouseAction(event: React.SyntheticEvent) {
-        if (event.type == 'mouseover') {
+        if (event.type === 'mouseover') {
             setHover(true);
         } else {
             setHover(false);
@@ -18,6 +18,10 @@ export default function PetAddCard() {
     }
 
     function handleClick(event: React.MouseEvent) {
+
+        if (status === 'unverified') {
+            return
+        }
         router.push(`my-shop/add`);
     }
 

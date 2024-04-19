@@ -14,10 +14,13 @@ import {
 import { styled } from '@mui/material/styles';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Fira_Sans_Condensed } from 'next/font/google';
 import useRegister from '../../core/auth/useRegister';
+import { CustomPinkTextField, fira_sans_600 } from '@core/theme/theme';
+import useToastUI from '@core/hooks/useToastUI';
 
 const fira_sans_condensed = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -26,6 +29,7 @@ type FormValues = {
     username: string;
     email: string;
     password: string;
+    license?: string
 };
 
 const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -36,39 +40,12 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     },
 }));
 
-const CustomTextField = styled(TextField)({
-    '& label.Mui-focused': {
-        color: '#472F05',
-    },
-    '& label': {
-        fontFamily: fira_sans_condensed.style.fontFamily,
-    },
-    '& .MuiInput-underline:after': {
-        borderBottomColor: '#B2BAC2',
-    },
-    '& .MuiInputBase-input': {
-        fontFamily: fira_sans_condensed.style.fontFamily,
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderRadius: 0,
-            border: '1px solid #472F05',
-        },
-        '&:hover fieldset': {
-            border: '2px solid #472F05',
-        },
-        '&.Mui-focused fieldset': {
-            border: '2px solid #472F05',
-        },
-        '&.Mui-error': {
-            color: 'red',
-            boxShadow: '3px 2px #B12000',
-        },
-    },
-});
-
 export default function RegisterForm() {
     const form = useForm<FormValues>();
+    const toastUI = useToastUI()
+    const router = useRouter()
+
+    const [roleSelected, setRoleSelected] = useState(0)
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -76,6 +53,7 @@ export default function RegisterForm() {
     const [usernameError, setUsernameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [licenseError, setLicenseError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -94,28 +72,39 @@ export default function RegisterForm() {
     const onSubmit = async (data: FormValues) => {
         if (data.username === '') {
             setUsernameError(true);
-            return alert('Username field is blank.');
+            return toastUI.toastError('Username field is blank.');
         }
         if (data.email === '') {
             setEmailError(true);
-            return alert('Email field is blank.');
+            return toastUI.toastError('Email field is blank.');
         }
         if (data.password === '') {
             setPasswordError(true);
-            return alert('Password field is blank.');
+            return toastUI.toastError('Password field is blank.');
         }
         if (confirmPassword !== data.password) {
             setConfirmPasswordError(true);
-            return alert('Confirmed Password is not consistent.');
+            return toastUI.toastError('Confirmed Password is not consistent.');
         }
+        if (roleSelected == 1) {
+            if(!data.license || !data.license.match(/^\d{2}\/.+$/)){
+                setLicenseError(true);
+                return toastUI.toastError('Please add a valid form of Pet seller\'s license')
+            }
+                
+        } else {
+            data.license = ''
+        }
+
+        console.log(data)
 
         const res = await useRegister(data).then((d) => {
             return d;
         });
         if (!res.error) {
-            alert(res.message);
+            toastUI.toastSuccess('Successfully Register')
         } else {
-            alert(res.error);
+            toastUI.toastSuccess('Register Error')
         }
     };
 
@@ -132,7 +121,7 @@ export default function RegisterForm() {
                     overflow: 'scroll',
                 }}
             >
-                <CustomTextField {...form.register('role')} select label="Role" sx={sxTextField}>
+                <CustomPinkTextField {...form.register('role')} select label="Role" onChange={(e) => setRoleSelected(Number(e.target.value))}>
                     {roles.map((option) => (
                         <MenuItem
                             key={option.value}
@@ -146,8 +135,8 @@ export default function RegisterForm() {
                             {option.label}
                         </MenuItem>
                     ))}
-                </CustomTextField>
-                <CustomTextField
+                </CustomPinkTextField>
+                <CustomPinkTextField
                     {...form.register('username')}
                     label="Username"
                     variant="outlined"
@@ -156,9 +145,8 @@ export default function RegisterForm() {
                     onChange={() => {
                         setUsernameError(false);
                     }}
-                    sx={sxTextField}
                 />
-                <CustomTextField
+                <CustomPinkTextField
                     {...form.register('email')}
                     label="Email"
                     variant="outlined"
@@ -167,9 +155,8 @@ export default function RegisterForm() {
                     onChange={() => {
                         setEmailError(false);
                     }}
-                    sx={sxTextField}
                 />
-                <CustomTextField
+                <CustomPinkTextField
                     {...form.register('password')}
                     label="Password"
                     variant="outlined"
@@ -179,7 +166,6 @@ export default function RegisterForm() {
                     onChange={() => {
                         setPasswordError(false);
                     }}
-                    sx={sxTextField}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -190,7 +176,7 @@ export default function RegisterForm() {
                         ),
                     }}
                 />
-                <CustomTextField
+                <CustomPinkTextField
                     label="Confirm Password"
                     variant="outlined"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -211,6 +197,24 @@ export default function RegisterForm() {
                         ),
                     }}
                 />
+                {
+                    roleSelected == 1 ?  
+                    <CustomPinkTextField
+                        {...form.register('license')}
+                        label="Seller's License"
+                        variant="outlined"
+                        autoComplete="current-username"
+                        error={licenseError}
+                        helperText={
+                            <Typography fontFamily={fira_sans_600.style.fontFamily} fontSize={13} pt={0.5} color={'gray'}>
+                                Please type in form of Year/No. (Ex. 23/097)
+                            </Typography>
+                        }
+                        onChange={() => {
+                            setLicenseError(false);
+                        }}
+                    /> : null
+                }
                 <Box
                     sx={{
                         backgroundColor: '#FAA943',

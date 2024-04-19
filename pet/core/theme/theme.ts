@@ -9,6 +9,7 @@ export const fira_sans_800 = Fira_Sans_Condensed({ weight: ['800'], subsets: ['l
 
 export const sxTextField = {
     boxShadow: '3px 3px #472F05',
+    transition: '0.3s',
     '&:hover': {
         backgroundColor: '#E5CB9A',
     },
@@ -102,6 +103,7 @@ export const CustomPinkTextField = styled(TextField)({
         borderBottomColor: '#B2BAC2',
     },
     '& .MuiInputBase-input': {
+        transition: '0.3s',
         fontFamily: fira_sans_600.style.fontFamily,
     },
     '& .MuiInputBase-input:hover': {
@@ -109,6 +111,7 @@ export const CustomPinkTextField = styled(TextField)({
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
+            transition: '0.3s',
             borderRadius: 0,
             border: '1px solid #472F05',
             boxShadow: '3px 3px #472F05',
@@ -137,6 +140,7 @@ export const CustomGreenTextField = styled(TextField)({
         borderBottomColor: '#B2BAC2',
     },
     '& .MuiInputBase-input': {
+        transition: '0.3s',
         fontFamily: fira_sans_600.style.fontFamily,
     },
     '& .MuiInputBase-input:hover': {
