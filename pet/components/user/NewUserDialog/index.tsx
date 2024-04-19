@@ -12,10 +12,12 @@ import { IChangePassword } from '../../../services/api/v1/user/type';
 import { CustomPinkTextField } from '../../../core/theme/theme';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useToastUI from '../../../core/hooks/useToastUI';
 import { CustomDialogProps } from '../../core/CustomDialog/type';
+import path from 'path';
+import { usePathname } from 'next/navigation';
 
 interface ConfirmDeleteInput {
     password: string;
@@ -35,6 +37,7 @@ export default function NewUserDialog(props: CustomDialogProps) {
 
     const toastUI = useToastUI();
     const router = useRouter();
+    const path = usePathname();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -43,12 +46,19 @@ export default function NewUserDialog(props: CustomDialogProps) {
     const onSubmit = async () => {
         //mock showing data
         handleClose();
-        router.push('/user/profile-creation');
+        router.push('/user/account/edit-profile');
     };
 
     const handleClose = () => {
         setOpen;
     };
+
+    useEffect(() => {
+        if(path.includes('edit-profile')){
+            console.log('pass')
+            setOpen(false)
+        }
+    }, [path])
 
     return (
         <React.Fragment>
