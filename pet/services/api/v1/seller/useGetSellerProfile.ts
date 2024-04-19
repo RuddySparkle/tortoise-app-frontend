@@ -4,7 +4,7 @@ import { ISellerProfile } from './type';
 
 export default function useGetSellerProfile(queryParams: string, queryOptions?: any): UseQueryResult<ISellerProfile> {
     return useQuery({
-        queryKey: ['user', queryParams],
+        queryKey: ['seller', queryParams],
         queryFn: async () => {
             const sellerId = queryParams;
             try {

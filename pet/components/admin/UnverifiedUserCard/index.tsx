@@ -6,6 +6,8 @@ import useToastUI from '@core/hooks/useToastUI';
 import useApproveSeller from '@services/api/v1/admin/useApproveSeller';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { ISellerProfile } from '@services/api/v1/seller/type';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import useGetSellerProfile from '@services/api/v1/seller/useGetSellerProfile';
 
 type SellerProps = {
     id: string;
@@ -53,7 +55,7 @@ export default function UnverifiedUserCard(props: SellerProps) {
                     textAlign={'center'}
                     color={'#213948'}
                 >
-                    {`${props.first_name} ${props.last_name}`}
+                    {!props.first_name && !props.last_name ? '(Undefined Name)' : `${props.first_name} ${props.last_name}`}
                 </Typography>
                 <Stack direction={'row'} spacing={1} textAlign={'center'} flex={'row'} justifyContent={'center'}>
                     <Typography
@@ -62,7 +64,7 @@ export default function UnverifiedUserCard(props: SellerProps) {
                         textAlign={'center'}
                         color={'#213948'}
                     >
-                        Seller's License NO.
+                        Seller's License: 
                     </Typography>
                     <Typography
                         fontFamily={fira_sans_400.style.fontFamily}
