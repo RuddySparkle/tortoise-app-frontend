@@ -182,9 +182,78 @@ export default function CheckoutPage() {
             toastUI.toastError('Please fill in all required fields');
             return;
         }
+        if (activeStep === 0){
+            for(let c of firstName){
+                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                if(!isAlphabetic){
+                    toastUI.toastError('Firstname must not contains numbers or special characters');
+                    return;
+                }
+            }
+            for(let c of lastName){
+                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                if(!isAlphabetic){
+                    toastUI.toastError('Lastname must not contains numbers or special characters');
+                    return;
+                }
+            }
+            for(let c of city){
+                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                if(!isAlphabetic){
+                    toastUI.toastError('City must not contains numbers or special characters');
+                    return;
+                }
+            }
+            for(let c of zip){
+                let isNumber = /^-?\d*\.?\d+$/.test(c);
+                if(!isNumber){
+                    toastUI.toastError('Zip code must be numbers');
+                    return;
+                }
+            }
+            for(let c of country){
+                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                if(!isAlphabetic){
+                    toastUI.toastError('Country must not contains numbers or special characters');
+                    return;
+                }
+            }
+        }
         if (activeStep === 1 && !paymentMethod && (cardHolder === '' || cardNumber === '' || expDate === '' || cvv === '')) {
             toastUI.toastError('Please fill in all required fields');
             return;
+        }
+        if(activeStep === 1){
+            for(let c of cardHolder){
+                let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
+                if(!isAlphabetic){
+                    toastUI.toastError('Name on card must not contains numbers or special characters');
+                    return;
+                }
+            }
+            for(let c of cardNumber){
+                let isNumber = /^-?\d*\.?\d+$/.test(c);
+                if(!isNumber){
+                    toastUI.toastError('Card numbers must be numbers');
+                    return;
+                }
+            }
+            if(cardNumber.length < 13 || cardNumber.length > 19){
+                toastUI.toastError('Card numbers must have 13 to 19 digits');
+                return;
+            }
+
+            let isValidExpiredDate = /^(0[1-9]|1[0-2])\/(0[0-9]|[1-9][0-9])$/.test(expDate);
+            if(!isValidExpiredDate){
+                toastUI.toastError('Expiry date must be MM/YY format');
+                return;
+            }
+
+            let isValidCVV = /^\d{3,4}$/.test(cvv);
+            if(!isValidCVV){
+                toastUI.toastError('CVV must be 3 or 4 digits number');
+                return;
+            }
         }
         if (activeStep === steps.length - 1) {
             const paymentMethodString = paymentMethod === 0 ? 'CreditCard': 'PromptPay';
