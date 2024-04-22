@@ -113,22 +113,81 @@ export default function AddPetForm() {
         name: z.string().min(1),
         age: z.string().min(1),
         price: z.string().min(1),
-        description: z.string().min(1),
         weight: z.string().min(1),
-        sex: z.string().min(1),
+        sex: z.enum(['Male', 'Female']),
         species: z.string().min(1),
         category: z.string().min(1),
-        behavior: z.string().min(1),
     });
-    const validateInput = (input: IPetUpdatePayload): boolean => {
+
+    const isNumberInputSchema = z.object({
+        age: z.number(),
+        price: z.number(),
+        weight: z.number(),
+    });
+
+    const minNumberInputSchema = z.object({
+        age: z.number().min(1),
+        price: z.number().min(1),
+        weight: z.number().min(1),
+    })
+
+    const base64TypeSchema = z.string().refine(value => {
+        const parts = value.split(';');
+        return (parts[0].includes("data") && parts[1].includes("base64"));
+    })
+
+    const imageTypeSchema = z.string().refine(value => {
+        const parts = value.split(';');
+        return ["png", "jpg", "jpeg", "gif"].some(substring => parts[0].includes(substring));
+    })
+
+
+    const validateInput = (input: IPetUpdatePayload): [boolean, string] => {
+        // Check if input is not empty.
         try {
-            console.log(input);
             userInputSchema.parse(input);
-            return true; // Input is valid
         } catch (error) {
-            return false; // Input is invalid
+            return [false, "Please fill all required fields."]; 
         }
+
+        input.age = Number(input.age)
+        input.price = Number(input.price)
+        input.weight = Number(input.weight)
+        
+        try {
+            isNumberInputSchema.parse(input);
+        } catch (error) {
+            return [false, "Age, Price, and Weight are should be a number."]; 
+        }
+
+        try {
+            minNumberInputSchema.parse(input);
+        } catch (error) {
+            return [false, "Age, Price, and Weight should be greater than 0."];
+        }
+
+        return [true, "Input Accept"];
     };
+
+    const validateImage = (): [boolean, string] => {
+        try {
+            console.log(base64Img)
+            base64TypeSchema.parse(base64Img);
+        } catch (error) {
+            return [false, "Image is not in Base64 type."];
+        }
+
+        try {
+           imageTypeSchema.parse(base64Img);
+        } catch (error) {
+            return [false, "File is not an image type."];
+        }
+
+        return [true, "Input Accept"]
+    }
+    
+
+    
     // useEffect(()=>{
     //     form.setValue('media', images[0])
     // }, [images, setImages])
@@ -246,8 +305,17 @@ export default function AddPetForm() {
     });
 
     const onSubmit = async (data: IPetUpdatePayload) => {
-        if (!validateInput(data)) {
-            return toastUI.toastError('Please fill the required fields.');
+        console.log(data)
+        // try{
+        //     data.age = Number(data.age)
+        //     data.price = Number(data.age)
+        //     data.weight = Number(data.age)
+        // } catch(err) {
+        //     return toastUI.toastError('Invalid type in age, price, weight field.');
+        // }
+        const inputValidation = validateInput(data)
+        if (!inputValidation[0]) {
+            return toastUI.toastError(inputValidation[1]);
         }
         const sellerId = session.userID;
 
@@ -267,23 +335,24 @@ export default function AddPetForm() {
             reader.readAsDataURL(images[0]);
         }
 
-        console.log(base64Img);
-        console.log(base64String);
-
         if (base64Img == '') {
             return toastUI.toastWarning('Please wait for the image to upload.');
         }
 
+        const imgValidation = validateImage()
+        if(!imgValidation[0]) {
+            return toastUI.toastError(imgValidation[1])
+        }
+
         data.is_sold = false;
-        data.age = Number(data.age);
-        data.price = Number(data.price);
-        data.weight = Number(data.weight);
         const medic = new Array<MedicalRecord>();
         rows.map((d) =>
             medic.push({ medical_id: d.medical_id, medical_date: d.medical_date, description: d.description }),
         );
         data.medical_records = medic;
         data.media = base64Img;
+
+        console.log(data)
 
         try {
             await mutateCreatePet({ sellerId: sellerId, payload: data } as IPetCreateParams);
@@ -361,6 +430,7 @@ export default function AddPetForm() {
                             label="Name"
                             variant="outlined"
                             autoComplete="pet-name"
+                            required
                             sx={sxTextField}
                         />
                         <Box
@@ -376,6 +446,7 @@ export default function AddPetForm() {
                                 label="Age"
                                 variant="outlined"
                                 autoComplete="pet-age"
+                                required
                                 sx={sxTextField}
                             />
                             <CustomTextField
@@ -383,6 +454,7 @@ export default function AddPetForm() {
                                 label="Price"
                                 variant="outlined"
                                 autoComplete="pet-price"
+                                required
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -400,6 +472,7 @@ export default function AddPetForm() {
                                 variant="outlined"
                                 type={'text'}
                                 autoComplete="pet-weight"
+                                required
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -415,6 +488,7 @@ export default function AddPetForm() {
 
                         <CustomTextField
                             {...form.register('description')}
+                            required={false}
                             label="Description"
                             variant="outlined"
                             autoComplete="pet-description"
@@ -431,7 +505,7 @@ export default function AddPetForm() {
                                 justifyContent: 'space-between',
                             }}
                         >
-                            <CustomTextField {...form.register('sex')} select label="Sex" sx={sxTextField}>
+                            <CustomTextField {...form.register('sex')} select required label="Sex" sx={sxTextField}>
                                 {SEX_CHOICES.map((option) => (
                                     <MenuItem
                                         key={option.value}
@@ -446,32 +520,40 @@ export default function AddPetForm() {
                                     </MenuItem>
                                 ))}
                             </CustomTextField>
-
-                            <SelectField
-                                {...form.register('category')}
-                                name="category"
-                                label="Category"
-                                sx={sxTextField}
-                                choices={CATEGORY_CHOICES}
-                                setFormValue={(value) => {
-                                    form.setValue('category', value);
-                                    form.clearErrors();
-                                }}
-                            />
-                            <SelectField
-                                {...form.register('species')}
-                                name="species"
-                                label="Species"
-                                sx={sxTextField}
-                                choices={SPECIES_CHOICES}
-                                disabled={!watcher}
-                                setFormValue={(value) => {
-                                    form.setValue('species', value);
-                                }}
-                            />
+                            <CustomTextField {...form.register('category')} select required label="Category" sx={sxTextField}>
+                                {CATEGORY_CHOICES.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            fontFamily: fira_sans_condensed.style.fontFamily,
+                                            '&:hover': { backgroundColor: '#F3DDD1' },
+                                            '&:focus': { backgroundColor: 'rgb(272, 174, 133) !important' },
+                                        }}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </CustomTextField>
+                            <CustomTextField {...form.register('species')} select required label="Species" sx={sxTextField}>
+                                {SPECIES_CHOICES.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            fontFamily: fira_sans_condensed.style.fontFamily,
+                                            '&:hover': { backgroundColor: '#F3DDD1' },
+                                            '&:focus': { backgroundColor: 'rgb(272, 174, 133) !important' },
+                                        }}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </CustomTextField>
                         </Box>
                         <CustomTextField
                             {...form.register('behavior')}
+                            required={false}
                             label="Behaviour"
                             variant="outlined"
                             type={'text'}

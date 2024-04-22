@@ -27,10 +27,10 @@ export interface IPetDetail {
 }
 
 export interface IPetFilter {
-    category?: string,
-    sex?: string,
-    minPrice?: number,
-    maxPrice?: number,
+    category?: string;
+    sex?: string;
+    minPrice?: number;
+    maxPrice?: number;
 }
 
 export interface IPetUpdatePayload {
