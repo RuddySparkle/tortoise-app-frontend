@@ -32,7 +32,7 @@ describe('Pet Creation Test', () => {
         cy.get('input[name="species"]').type('Golden Retriever', { force: true });
         cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Please add Pet Image');
+        cy.contains('Pet creation failed');
     });
 
     it('should error because of age, price, and weight contain zero or negative values [TC3-3]', () => {
@@ -43,8 +43,56 @@ describe('Pet Creation Test', () => {
         cy.get('input[name="sex"]').type('Male', { force: true });
         cy.get('input[name="category"]').type('Dog', { force: true });
         cy.get('input[name="species"]').type('Golden Retriever', { force: true });
-        cy.get('input[type="file"]').type('avatar.gif');
-        cy.get('button').contains('AddMyPet').click();
-        cy.contains('Please fill the required fields.');
+        cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Pet creation failed');
+    });
+
+    it("should error because media file type isn't an image [TC3-4]", () => {
+        cy.get('input[name="name"]').type('SiaArmDoggy');
+        cy.get('input[name="age"]').type('1.2');
+        cy.get('input[name="price"]').type('10');
+        cy.get('input[name="weight"]').type('3');
+        cy.get('input[name="sex"]').type('Female', { force: true });
+        cy.get('input[name="category"]').type('Dog', { force: true });
+        cy.get('input[name="species"]').type('Golden Retriever', { force: true });
+        cy.get('input[type="file"]').selectFile('./public/dummy/base64.txt', { force: true });
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Please wait for the image to upload.').click();
+        cy.wait(3);
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Pet creation failed');
+    });
+
+    it("should error because media file type isn't an image [TC3-5]", () => {
+        cy.get('input[name="name"]').type('SiaArmDoggy');
+        cy.get('input[name="age"]').type('1.2');
+        cy.get('input[name="price"]').type('10');
+        cy.get('input[name="weight"]').type('3');
+        cy.get('input[name="sex"]').type('Female', { force: true });
+        cy.get('input[name="category"]').type('Dog', { force: true });
+        cy.get('input[name="species"]').type('Golden Retriever', { force: true });
+        cy.get('input[type="file"]').selectFile('./public/dummy/text.txt', { force: true });
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Please wait for the image to upload.').click();
+        cy.wait(3);
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Pet creation failed');
+    });
+
+    it("should error because media file type isn't an image [TC3-6]", () => {
+        cy.get('input[name="name"]').type('SiaArmDoggy');
+        cy.get('input[name="age"]').type('1.2');
+        cy.get('input[name="price"]').type('10');
+        cy.get('input[name="weight"]').type('3');
+        cy.get('input[name="sex"]').type('Female', { force: true });
+        cy.get('input[name="category"]').type('Dog', { force: true });
+        cy.get('input[name="species"]').type('Golden Retriever', { force: true });
+        cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Please wait for the image to upload.').click();
+        cy.wait(3);
+        cy.get('button').contains('Add My Pet').click();
+        cy.contains('Pet created successfully');
     });
 });
