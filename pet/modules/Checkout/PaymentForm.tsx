@@ -78,6 +78,11 @@ export default function PaymentForm({
                                 required
                                 id="expDate"
                                 label="Expiry date"
+                                helperText={
+                                    <Typography fontFamily={fira_sans_600.style.fontFamily} fontSize={13} pt={0.5}>
+                                        Format: MM/YY
+                                    </Typography>
+                                }
                                 fullWidth
                                 autoComplete="cc-exp"
                                 value={expDate}

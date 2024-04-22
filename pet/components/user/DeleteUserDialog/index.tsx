@@ -8,7 +8,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { fira_sans_600, fira_sans_800 } from '../../../core/theme/theme';
 import { Grid, Zoom, InputAdornment, IconButton, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { IChangePassword } from '../../../services/api/v1/user/type';
+import { IChangePassword, IDeleteUserParams } from '../../../services/api/v1/user/type';
 import { CustomPinkTextField } from '../../../core/theme/theme';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
@@ -55,7 +55,16 @@ export default function DeleteUserDialog(props: CustomDialogProps) {
     });
 
     const onSubmit = async (data: ConfirmDeleteInput) => {
-        deleteUser.mutate(session?.userID || '');
+        try {
+            deleteUser.mutate({
+                user_id: session?.userID || '',
+                payload: {
+                    password: data.password,
+                },
+            } as IDeleteUserParams);
+        } catch (err) {
+            throw err;
+        }
         handleClose();
     };
 

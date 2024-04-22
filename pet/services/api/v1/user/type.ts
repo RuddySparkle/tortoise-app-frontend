@@ -42,3 +42,10 @@ export interface IUserUpdatePayload {
     image: string;
     address: Address;
 }
+
+export interface IDeleteUserParams {
+    user_id: string;
+    payload: {
+        password: string;
+    };
+}
