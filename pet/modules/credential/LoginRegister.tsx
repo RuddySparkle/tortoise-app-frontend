@@ -53,6 +53,7 @@ export default function LoginRegisterPage() {
                     zIndex: 1,
                     borderRadius: '4px',
                     boxShadow: 20,
+                    position: 'relative'
                 }}
             >
                 <Box

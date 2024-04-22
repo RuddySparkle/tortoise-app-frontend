@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { Fira_Sans_Condensed } from 'next/font/google';
+import Image from 'next/image';
 
 const fira_sans_condensed = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -16,9 +17,10 @@ export default function TopBarHomepage() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                position: 'relative',
             }}
         >
-            <Typography
+            {/* <Typography
                 style={{
                     textAlign: 'center',
                     color: 'whitesmoke',
@@ -27,7 +29,13 @@ export default function TopBarHomepage() {
                 }}
             >
                 PetPal
-            </Typography>
+            </Typography> */}
+            <Image 
+                src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                alt={'Petpal Logo'}
+                fill={true}
+                style={{ objectFit: 'contain', padding: "1rem 0" }}
+            />
         </Box>
     );
 }

@@ -13,6 +13,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import useToastUI from '@core/hooks/useToastUI';
 import useLogin from '@core/auth/useAdminLogin';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function AdminLoginPage() {
 
@@ -54,20 +55,31 @@ export default function AdminLoginPage() {
                     zIndex: 1,
                     borderRadius: 0,
                     boxShadow: '10px 10px 20px 5px #426779',
+                    py: 2, 
                     backgroundColor: '#E1EAEF',
                 }}
             >
-                <Typography 
+                {/* <Typography 
                     fontFamily={fira_sans_800.style.fontFamily} 
                     fontSize={30} 
                     textAlign={'center'}
                     py={2}
                 >
                     <PetsIcon/> PetPal
-                </Typography>
+                </Typography> */}
+                <Box sx={{ display: 'flex', px: '3%', color: 'black', position: 'relative', justifyContent: 'center' }}>
+                    <Image 
+                        src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                        alt={'Petpal Logo'}
+                        width={130}
+                        height={250}
+                        style={{ objectFit: 'fill' }}
+                    />
+                </Box>
 
                 <Divider 
                     sx={{
+                        mt: 2,
                         border: '0.75px solid #253A44',
                         boxShadow: '0px 3px 10px 0.75px #253A44'
                     }}

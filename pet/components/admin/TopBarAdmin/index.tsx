@@ -17,6 +17,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Fira_Sans_Condensed } from 'next/font/google';
 import useLogout from '../../../core/auth/useLogout';
 import useGetSession from '@core/auth/useGetSession';
+import Image from 'next/image';
 
 const fira_sans_600 = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
 
@@ -55,8 +56,8 @@ function TopBarAdmin() {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* START LARGE TABS OF LOGO */}
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, px: '3%', color: 'black' }}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <Box sx={{ display: {xs: 'none', md: 'block'}, height: '100%', px: '3%', color: 'black', position: 'relative' }}>
+                        {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -71,7 +72,14 @@ function TopBarAdmin() {
                             }}
                         >
                             PETPAL
-                        </Typography>
+                        </Typography> */}
+                        <Image 
+                            src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                            alt={'Petpal Logo'}
+                            width={130}
+                            height={250}
+                            style={{ objectFit: 'fill' }}
+                        />
                     </Box>
                     {/* END LARGE TABS OF LOGO */}
 
