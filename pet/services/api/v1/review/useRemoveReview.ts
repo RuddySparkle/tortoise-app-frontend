@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
-import { IAxiosResponse, IMutationHook, IResponseData } from '../../models';
+import { requestClient } from '@services/clients/requestClient';
+import { IAxiosResponse, IMutationHook, IResponseData } from '@services/api/models';
 import { AxiosError } from 'axios';
 import { IReviewQueryParams } from './type';
 

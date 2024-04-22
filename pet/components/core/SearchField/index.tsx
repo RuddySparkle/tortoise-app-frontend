@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
-import useGetPetCategory, { IPetCategoryMasterData } from '../../../services/api/master/useGetPetCategory';
+import useGetPetCategory, { IPetCategoryMasterData } from '@services/api/master/useGetPetCategory';
 import { useRouter } from 'next/navigation';
 import { getValue } from '@mui/system';
 import { useForm } from 'react-hook-form';

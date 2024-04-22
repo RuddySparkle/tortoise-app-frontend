@@ -5,8 +5,8 @@ import { CssBaseline, Paper, Box, Container, Typography, Button, ButtonProps, st
 import { useForm } from 'react-hook-form';
 import { Router } from 'next/router';
 import { useRouter } from 'next/navigation';
-import useToastUI from '../../core/hooks/useToastUI';
-import { fira_sans_600 } from '../../core/theme/theme';
+import useToastUI from '@core/hooks/useToastUI';
+import { fira_sans_600 } from '@core/theme/theme';
 import useGetOTP from '@services/api/v1/user/useGetOTP';
 import useCheckOTP from '@services/api/v1/user/useCheckOTP';
 import useGetUsername from '@services/api/v1/user/useGetUsername';
@@ -53,7 +53,7 @@ export default function VerifyOTP() {
             } else {
                 toastUI.toastSuccess('OTP has been sent to your email');
             }
-        })
+        });
         router.push(generateRandomString(16) + '?email=' + email);
     };
 
@@ -67,8 +67,7 @@ export default function VerifyOTP() {
                 toastUI.toastSuccess('Successfully, your username will sent to your email');
                 router.push('/user/login');
             }
-        })
-        
+        });
     };
 
     return (
@@ -80,7 +79,9 @@ export default function VerifyOTP() {
                         variant="outlined"
                         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, boxShadow: '3px 3px #472F05' }}
                     >
-                        <Typography>We've Sent The OTP to <b>{email}</b></Typography>
+                        <Typography>
+                            We've Sent The OTP to <b>{email}</b>
+                        </Typography>
                         <Box
                             sx={{
                                 backgroundColor: 'rgb(255, 255, 255)',

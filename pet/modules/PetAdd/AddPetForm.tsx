@@ -2,18 +2,18 @@
 import { Box, MenuItem, InputAdornment, Typography, Button } from '@mui/material';
 import { useForm, useWatch } from 'react-hook-form';
 import { Fira_Sans_Condensed } from 'next/font/google';
-import { IPetCreateParams, IPetDetail, IPetUpdatePayload, MedicalRecord } from '../../services/api/v1/pets/type';
-import { CustomTextField, ColorButton } from '../../components/core/CustomInput/type';
-import ImageUploader from '../../components/core/ImageDropbox';
+import { IPetCreateParams, IPetDetail, IPetUpdatePayload, MedicalRecord } from '@services/api/v1/pets/type';
+import { CustomTextField, ColorButton } from '@components/core/CustomInput/type';
+import ImageUploader from '@components/core/ImageDropbox';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import MedicalRecordForm from '../../components/pet/MedicalRecordForm';
+import MedicalRecordForm from '@components/pet/MedicalRecordForm';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import useGetPetCategory, { IPetCategoryMasterData } from '../../services/api/master/useGetPetCategory';
+import useGetPetCategory, { IPetCategoryMasterData } from '@services/api/master/useGetPetCategory';
 import { z } from 'zod';
 
 import {
@@ -30,10 +30,10 @@ import {
     GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
-import { fira_sans_600 } from '../../core/theme/theme';
-import SelectField, { SelectFieldChoice } from '../../components/core/SelectField';
-import { useCreatePet } from '../../services/api/v1/pets/useCreatePet';
-import useToastUI from '../../core/hooks/useToastUI';
+import { fira_sans_600 } from '@core/theme/theme';
+import SelectField, { SelectFieldChoice } from '@components/core/SelectField';
+import { useCreatePet } from '@services/api/v1/pets/useCreatePet';
+import useToastUI from '@core/hooks/useToastUI';
 import { getSession } from 'next-auth/react';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import useGetSession from '@core/auth/useGetSession';
@@ -129,65 +129,62 @@ export default function AddPetForm() {
         age: z.number().min(1),
         price: z.number().min(1),
         weight: z.number().min(1),
-    })
+    });
 
-    const base64TypeSchema = z.string().refine(value => {
+    const base64TypeSchema = z.string().refine((value) => {
         const parts = value.split(';');
-        return (parts[0].includes("data") && parts[1].includes("base64"));
-    })
+        return parts[0].includes('data') && parts[1].includes('base64');
+    });
 
-    const imageTypeSchema = z.string().refine(value => {
+    const imageTypeSchema = z.string().refine((value) => {
         const parts = value.split(';');
-        return ["png", "jpg", "jpeg", "gif"].some(substring => parts[0].includes(substring));
-    })
-
+        return ['png', 'jpg', 'jpeg', 'gif'].some((substring) => parts[0].includes(substring));
+    });
 
     const validateInput = (input: IPetUpdatePayload): [boolean, string] => {
         // Check if input is not empty.
         try {
             userInputSchema.parse(input);
         } catch (error) {
-            return [false, "Please fill all required fields."]; 
+            return [false, 'Please fill all required fields.'];
         }
 
-        input.age = Number(input.age)
-        input.price = Number(input.price)
-        input.weight = Number(input.weight)
-        
+        input.age = Number(input.age);
+        input.price = Number(input.price);
+        input.weight = Number(input.weight);
+
         try {
             isNumberInputSchema.parse(input);
         } catch (error) {
-            return [false, "Age, Price, and Weight are should be a number."]; 
+            return [false, 'Age, Price, and Weight are should be a number.'];
         }
 
         try {
             minNumberInputSchema.parse(input);
         } catch (error) {
-            return [false, "Age, Price, and Weight should be greater than 0."];
+            return [false, 'Age, Price, and Weight should be greater than 0.'];
         }
 
-        return [true, "Input Accept"];
+        return [true, 'Input Accept'];
     };
 
     const validateImage = (): [boolean, string] => {
         try {
-            console.log(base64Img)
+            console.log(base64Img);
             base64TypeSchema.parse(base64Img);
         } catch (error) {
-            return [false, "Image is not in Base64 type."];
+            return [false, 'Image is not in Base64 type.'];
         }
 
         try {
-           imageTypeSchema.parse(base64Img);
+            imageTypeSchema.parse(base64Img);
         } catch (error) {
-            return [false, "File is not an image type."];
+            return [false, 'File is not an image type.'];
         }
 
-        return [true, "Input Accept"]
-    }
-    
+        return [true, 'Input Accept'];
+    };
 
-    
     // useEffect(()=>{
     //     form.setValue('media', images[0])
     // }, [images, setImages])
@@ -305,7 +302,7 @@ export default function AddPetForm() {
     });
 
     const onSubmit = async (data: IPetUpdatePayload) => {
-        console.log(data)
+        console.log(data);
         // try{
         //     data.age = Number(data.age)
         //     data.price = Number(data.age)
@@ -313,7 +310,7 @@ export default function AddPetForm() {
         // } catch(err) {
         //     return toastUI.toastError('Invalid type in age, price, weight field.');
         // }
-        const inputValidation = validateInput(data)
+        const inputValidation = validateInput(data);
         if (!inputValidation[0]) {
             return toastUI.toastError(inputValidation[1]);
         }
@@ -339,9 +336,9 @@ export default function AddPetForm() {
             return toastUI.toastWarning('Please wait for the image to upload.');
         }
 
-        const imgValidation = validateImage()
-        if(!imgValidation[0]) {
-            return toastUI.toastError(imgValidation[1])
+        const imgValidation = validateImage();
+        if (!imgValidation[0]) {
+            return toastUI.toastError(imgValidation[1]);
         }
 
         data.is_sold = false;
@@ -352,7 +349,7 @@ export default function AddPetForm() {
         data.medical_records = medic;
         data.media = base64Img;
 
-        console.log(data)
+        console.log(data);
 
         try {
             await mutateCreatePet({ sellerId: sellerId, payload: data } as IPetCreateParams);
@@ -520,7 +517,13 @@ export default function AddPetForm() {
                                     </MenuItem>
                                 ))}
                             </CustomTextField>
-                            <CustomTextField {...form.register('category')} select required label="Category" sx={sxTextField}>
+                            <CustomTextField
+                                {...form.register('category')}
+                                select
+                                required
+                                label="Category"
+                                sx={sxTextField}
+                            >
                                 {CATEGORY_CHOICES.map((option) => (
                                     <MenuItem
                                         key={option.value}
@@ -535,7 +538,13 @@ export default function AddPetForm() {
                                     </MenuItem>
                                 ))}
                             </CustomTextField>
-                            <CustomTextField {...form.register('species')} select required label="Species" sx={sxTextField}>
+                            <CustomTextField
+                                {...form.register('species')}
+                                select
+                                required
+                                label="Species"
+                                sx={sxTextField}
+                            >
                                 {SPECIES_CHOICES.map((option) => (
                                     <MenuItem
                                         key={option.value}

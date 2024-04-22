@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fira_Sans_Condensed } from 'next/font/google';
-import useLogout from '../../../core/auth/useLogout';
+import useLogout from '@core/auth/useLogout';
 import useGetSession from '@core/auth/useGetSession';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { useState, useEffect } from 'react';
@@ -30,13 +30,13 @@ function TopBar() {
     const router = useRouter();
     const session = useGetSession();
 
-    const [profileImage, setProfileImage] = useState<string | undefined>('')
-    const [pages, setPages] = useState([''])
+    const [profileImage, setProfileImage] = useState<string | undefined>('');
+    const [pages, setPages] = useState(['']);
 
-    // const pages = session.role === 'seller' ? ['My Shop', 'Marketplace'] : ['Marketplace', 'My Orders'] 
+    // const pages = session.role === 'seller' ? ['My Shop', 'Marketplace'] : ['Marketplace', 'My Orders']
 
     const { data: userProfile, isSuccess: userProfileSuccess } = useGetUserProfile(session.userID || '');
-       
+
     const settings = ['Account', 'Transaction History', 'Report a Problem', 'Logout'];
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -58,20 +58,17 @@ function TopBar() {
     };
 
     useEffect(() => {
-        if(session.role == 'seller'){
-            setPages(['My Shop', 'Marketplace'])
+        if (session.role == 'seller') {
+            setPages(['My Shop', 'Marketplace']);
+        } else {
+            setPages(['MarketPlace', 'My Ordered']);
         }
-        else{
-            setPages(['MarketPlace', 'My Ordered'])
+        if (!userProfile) {
+            setProfileImage('');
+        } else {
+            setProfileImage(userProfile.image);
         }
-        if(!userProfile) {
-            setProfileImage('')
-        }
-        else {
-            setProfileImage(userProfile.image)
-        }
-        
-    }, [session.role, userProfile?.image])
+    }, [session.role, userProfile?.image]);
 
     if (path.includes('checkout')) {
         return null;
@@ -82,7 +79,15 @@ function TopBar() {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* START LARGE TABS OF LOGO */}
-                    <Box sx={{ display: {xs: 'none', md: 'block'}, height: '100%', px: '3%', color: 'black', position: 'relative' }}>
+                    <Box
+                        sx={{
+                            display: { xs: 'none', md: 'block' },
+                            height: '100%',
+                            px: '3%',
+                            color: 'black',
+                            position: 'relative',
+                        }}
+                    >
                         {/* <Typography
                             variant="h6"
                             noWrap
@@ -98,8 +103,8 @@ function TopBar() {
                         >
                             PETPAL
                         </Typography> */}
-                        <Image 
-                            src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                        <Image
+                            src={'https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J'}
                             alt={'Petpal Logo'}
                             width={130}
                             height={250}
@@ -118,7 +123,7 @@ function TopBar() {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                             sx={{
-                                color: '#472F05'
+                                color: '#472F05',
                             }}
                         >
                             <MenuIcon />
@@ -184,8 +189,8 @@ function TopBar() {
                             color: 'inherit',
                         }}
                     >
-                        <Image 
-                            src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                        <Image
+                            src={'https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J'}
                             alt={'Petpal Logo'}
                             width={130}
                             height={250}
@@ -200,10 +205,11 @@ function TopBar() {
                             <Box
                                 key={page}
                                 sx={{
-                                    borderBottom: (path.includes(page.toLowerCase().replace(' ', '-')) || 
-                                    (path.includes('transaction-history') && page.toLowerCase() === 'my ordered'))
-                                        ? '3px solid #671E14'
-                                        : 'none',
+                                    borderBottom:
+                                        path.includes(page.toLowerCase().replace(' ', '-')) ||
+                                        (path.includes('transaction-history') && page.toLowerCase() === 'my ordered')
+                                            ? '3px solid #671E14'
+                                            : 'none',
                                     px: '2%',
                                     whiteSpace: 'pre',
                                 }}
@@ -213,18 +219,19 @@ function TopBar() {
                                         handleCloseNavMenu;
                                         if (page.toLowerCase() === 'my ordered') {
                                             router.push('/user/transaction-history');
-                                        }
-                                        else {
+                                        } else {
                                             router.push(`/user/${page.toLowerCase().replace(' ', '-')}`);
                                         }
                                     }}
                                     sx={{
                                         px: '1%',
                                         my: 2,
-                                        color: (path.includes(page.toLowerCase().replace(' ', '-')) || 
-                                        (path.includes('transaction-history') && page.toLowerCase() === 'my ordered'))
-                                            ? '#671E14'
-                                            : 'black',
+                                        color:
+                                            path.includes(page.toLowerCase().replace(' ', '-')) ||
+                                            (path.includes('transaction-history') &&
+                                                page.toLowerCase() === 'my ordered')
+                                                ? '#671E14'
+                                                : 'black',
                                         letterSpacing: '.1rem',
                                         display: 'block',
                                         fontFamily: fira_sans_600.style.fontFamily,
@@ -242,20 +249,20 @@ function TopBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar
-                                alt="Profile Picture"
-                                src={userProfile?.image}
-                                sx={{
-                                    width: 50,
-                                    height: 50,
-                                    border: '1px solid #472F05',
-                                    boxShadow: 10,
-                                    fontSize: 25,
-                                    fontFamily: fira_sans_600.style.fontFamily,
-                                }}
-                            >
-                                {userProfile?.username[0].toUpperCase()}
-                            </Avatar>
+                                <Avatar
+                                    alt="Profile Picture"
+                                    src={userProfile?.image}
+                                    sx={{
+                                        width: 50,
+                                        height: 50,
+                                        border: '1px solid #472F05',
+                                        boxShadow: 10,
+                                        fontSize: 25,
+                                        fontFamily: fira_sans_600.style.fontFamily,
+                                    }}
+                                >
+                                    {userProfile?.username[0].toUpperCase()}
+                                </Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu

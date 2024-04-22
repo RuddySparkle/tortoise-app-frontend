@@ -4,9 +4,9 @@ import { Box, Typography, Stack, Card, Divider, FormLabel, FormControl, Avatar }
 import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { fira_sans_800, fira_sans_600 } from '../../../core/theme/theme';
+import { fira_sans_800, fira_sans_600 } from '@core/theme/theme';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { IUserDetail } from '../../../services/api/v1/user/type';
+import { IUserDetail } from '@services/api/v1/user/type';
 
 const theme = createTheme({
     typography: {

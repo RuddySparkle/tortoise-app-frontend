@@ -1,5 +1,5 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
+import { requestClient } from '@services/clients/requestClient';
 import { IPetQueryParams, IPetDetail } from './type';
 
 export default function useGetPetByID(queryParams: IPetQueryParams, queryOptions?: any): UseQueryResult<IPetDetail> {

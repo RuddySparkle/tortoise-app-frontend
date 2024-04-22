@@ -1,5 +1,5 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
+import { requestClient } from '@services/clients/requestClient';
 import { IUserDetail } from './type';
 
 export default function useGetUserProfile(queryParams: string, queryOptions?: any): UseQueryResult<IUserDetail> {

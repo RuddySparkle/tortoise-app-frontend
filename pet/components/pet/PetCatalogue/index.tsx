@@ -1,12 +1,12 @@
 'use client';
-import PetCard from '../PetCard';
+import PetCard from '@components/pet/PetCard';
 import React, { useEffect } from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import useGetPets from '../../../services/api/v1/pets/useGetPets';
-import useToastUI from '../../../core/hooks/useToastUI';
+import useGetPets from '@services/api/v1/pets/useGetPets';
+import useToastUI from '@core/hooks/useToastUI';
 import { Typography } from '@mui/material';
 import { PetSearchParams } from '@services/api/v1/pets/type';
 import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
@@ -30,8 +30,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 type petFilterType = {
-    petFilters: PetSearchParams,
-}
+    petFilters: PetSearchParams;
+};
 
 export default function PetCatalogue(props: petFilterType) {
     const { toastError } = useToastUI();
@@ -40,38 +40,29 @@ export default function PetCatalogue(props: petFilterType) {
         refetch,
         isSuccess: petListSuccess,
         isError,
-    } = useGetPets(
-        props.petFilters,
-        {
-            enabled: true,
-        },
-    );
+    } = useGetPets(props.petFilters, {
+        enabled: true,
+    });
 
     const petListData = petList || [];
 
     return (
-        <Box 
-            sx={{ 
+        <Box
+            sx={{
                 flexGrow: 1,
                 my: 2,
                 p: 3,
                 border: '2px solid #472F05',
                 borderRadius: 1,
                 boxShadow: '3px 3px #472F05',
-                backgroundColor: '#F8C4A7'
+                backgroundColor: '#F8C4A7',
             }}
         >
-            {
-                (!petListSuccess || petListData?.length == 0) ?
-
-                <Typography
-                    fontFamily={fira_sans_800.style.fontFamily}
-                    fontSize={24}
-                    color={'#472F05'}
-                >
+            {!petListSuccess || petListData?.length == 0 ? (
+                <Typography fontFamily={fira_sans_800.style.fontFamily} fontSize={24} color={'#472F05'}>
                     No pets found
-                </Typography> : 
-
+                </Typography>
+            ) : (
                 <Grid
                     container
                     spacing={{ xs: 3, md: 4 }}
@@ -91,8 +82,7 @@ export default function PetCatalogue(props: petFilterType) {
                         </Grid>
                     ))}
                 </Grid>
-            }
-
+            )}
         </Box>
     );
 }

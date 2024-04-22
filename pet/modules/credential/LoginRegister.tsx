@@ -3,10 +3,10 @@ import { Tabs, Tab, TextField, Typography, Box, styled } from '@mui/material';
 import { useState } from 'react';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import LoginLeftFrame from '../../public/image/login_hero.png';
+import LoginLeftFrame from '@public/image/login_hero.png';
 import Image from 'next/image';
-import LoginForm from '../LoginUser/LoginForm';
-import RegisterForm from '../Register/RegisterForm';
+import LoginForm from '@modules/LoginUser/LoginForm';
+import RegisterForm from '@modules/register/RegisterForm';
 import { Fira_Sans_Condensed } from 'next/font/google';
 
 const fira_sans_condensed = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });
@@ -53,7 +53,7 @@ export default function LoginRegisterPage() {
                     zIndex: 1,
                     borderRadius: '4px',
                     boxShadow: 20,
-                    position: 'relative'
+                    position: 'relative',
                 }}
             >
                 <Box

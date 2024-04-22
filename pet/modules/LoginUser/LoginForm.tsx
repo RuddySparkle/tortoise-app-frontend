@@ -17,10 +17,10 @@ import { useState } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 import { Fira_Sans_Condensed } from 'next/font/google';
 import { signIn } from 'next-auth/react';
-import useLogin from '../../core/auth/useLogin';
-import { authClient } from '../../services/clients';
+import useLogin from '@core/auth/useLogin';
+import { authClient } from '@services/clients';
 import { useRouter } from 'next/navigation';
-import useToastUI from '../../core/hooks/useToastUI';
+import useToastUI from '@core/hooks/useToastUI';
 
 type FormValues = {
     username: string;

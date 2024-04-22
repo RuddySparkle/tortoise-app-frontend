@@ -2,24 +2,24 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SettingsCard from '../../components/pet/SettingsCard';
+import SettingsCard from '@components/pet/SettingsCard';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import useGetPetByID from '../../services/api/v1/pets/useGetPetByID';
+import useGetPetByID from '@services/api/v1/pets/useGetPetByID';
 import { useParams, useRouter } from 'next/navigation';
-import { IPetDetail, IPetQueryParams, IPetUpdateParams, IPetUpdatePayload } from '../../services/api/v1/pets/type';
+import { IPetDetail, IPetQueryParams, IPetUpdateParams, IPetUpdatePayload } from '@services/api/v1/pets/type';
 import dayjs from 'dayjs';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ConfirmDialog from '../../components/core/ConfirmDialog';
-import ProfileCard from '../../components/pet/ProfileCard';
-import useDeletePet from '../../services/api/v1/pets/useDeletePet';
-import PetEditCard from '../../components/pet/PetEditCard';
+import ConfirmDialog from '@components/core/ConfirmDialog';
+import ProfileCard from '@components/pet/ProfileCard';
+import useDeletePet from '@services/api/v1/pets/useDeletePet';
+import PetEditCard from '@components/pet/PetEditCard';
 import SaveIcon from '@mui/icons-material/Save';
 import { useForm } from 'react-hook-form';
-import { useUpdatePet } from '../../services/api/v1/pets/useUpdatePet';
-import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
+import { useUpdatePet } from '@services/api/v1/pets/useUpdatePet';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 import useToastUI from '@core/hooks/useToastUI';
-import ImageUploader from '../../components/core/ImageDropbox';
+import ImageUploader from '@components/core/ImageDropbox';
 
 export default function EditPetForm() {
     const toastUI = useToastUI();
@@ -28,7 +28,7 @@ export default function EditPetForm() {
     const [editMode, setEditMode] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [images, setImages] = useState<File[]>([]);
-    const [base64Img, setBase64Img] = useState('')
+    const [base64Img, setBase64Img] = useState('');
     const form = useForm<IPetUpdatePayload>();
     const petParams: IPetQueryParams = {
         petId: params?.petId as string,
@@ -74,22 +74,22 @@ export default function EditPetForm() {
             } as IPetUpdatePayload),
             ...data,
         };
-        let base64String = ''
+        let base64String = '';
         let reader = new FileReader();
 
         reader.onload = function () {
-            base64String = String(reader.result)
-            setBase64Img(base64String) 
-        }
-        if(images.at(0)){
+            base64String = String(reader.result);
+            setBase64Img(base64String);
+        };
+        if (images.at(0)) {
             reader.readAsDataURL(images[0]);
         }
 
-        if(base64Img == '' && images[0] !== undefined) {
-            return toastUI.toastWarning('Please wait for the image to upload.')
+        if (base64Img == '' && images[0] !== undefined) {
+            return toastUI.toastWarning('Please wait for the image to upload.');
         }
-        if(base64Img !== '') {
-            updateData.media = base64Img
+        if (base64Img !== '') {
+            updateData.media = base64Img;
         }
         console.log(updateData);
         try {
@@ -242,14 +242,14 @@ export default function EditPetForm() {
                                 pb={3}
                                 mb={3}
                                 sx={{
-                                    backgroundColor: '#FDE5BA'
+                                    backgroundColor: '#FDE5BA',
                                 }}
                             >
                                 <Box
                                     sx={{
                                         display: 'flex',
-                                        flexDirection :'row',
-                                        justifyContent: 'center'
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
                                     }}
                                 >
                                     <ProfileCard petImage={petFullDetail.media} />
@@ -258,7 +258,6 @@ export default function EditPetForm() {
                         </Grid>
 
                         <Grid item md={7}>
-                            
                             <PetEditCard
                                 form={form}
                                 id={petFullDetail.id}
@@ -288,7 +287,7 @@ export default function EditPetForm() {
                                     border: '2px solid #472F05',
                                     borderRadius: 2,
                                     boxShadow: '3px 3px #472F05',
-                                    backgroundColor: "#DDB892"
+                                    backgroundColor: '#DDB892',
                                 }}
                             >
                                 <Box

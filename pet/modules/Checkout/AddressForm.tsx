@@ -5,19 +5,27 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, styled } from '@mui/material';
-import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
-import { CustomTextField } from '../../components/core/CustomInput/type';
-import { sxTextField } from '../../core/theme/theme';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import { CustomTextField } from '@components/core/CustomInput/type';
+import { sxTextField } from '@core/theme/theme';
 
-export default function AddressForm({ 
-    firstName, updateFirstName,
-    lastName, updateLastName,
-    address1, updateAddress1,
-    address2, updateAddress2,
-    city, updateCity,
-    state, updateState,
-    zip, updateZip,
-    country, updateCountry,
+export default function AddressForm({
+    firstName,
+    updateFirstName,
+    lastName,
+    updateLastName,
+    address1,
+    updateAddress1,
+    address2,
+    updateAddress2,
+    city,
+    updateCity,
+    state,
+    updateState,
+    zip,
+    updateZip,
+    country,
+    updateCountry,
 }: {
     firstName: any;
     updateFirstName: any;

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import ChangePasswordDialog from '../ChangePasswordDialog';
+import ChangePasswordDialog from '@components/user/ChangePasswordDialog';
 import DeleteUserDialog from '@components/user/DeleteUserDialog';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -10,7 +10,7 @@ import PasswordIcon from '@mui/icons-material/Password';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
-import { fira_sans_600 } from '../../../core/theme/theme';
+import { fira_sans_600 } from '@core/theme/theme';
 import { useRouter } from 'next/navigation';
 import DeleteBankAccountDialog from '@components/user/DeleteBankAccountDialog';
 import { useUpdateUserPassword } from '@services/api/v1/user/useUpdateUserPassword';

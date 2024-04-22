@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Box, SxProps, Theme, Typography, styled } from '@mui/material';
-import { fira_sans_600 } from '../../../core/theme/theme';
+import { fira_sans_600 } from '@core/theme/theme';
 import { UseFormReturn } from 'react-hook-form';
 
 export interface SelectFieldChoice {
@@ -33,20 +33,19 @@ export default function SelectField(props: SelectFieldProps) {
         props.setFormValue(event.target.value);
     };
     return (
-        <FormControl sx={
-            { 
-                ...props.sx, 
+        <FormControl
+            sx={{
+                ...props.sx,
                 width: '100%',
             }}
         >
-            {props.label && <InputLabel id="demo-simple-select-filled-label">
-                <Typography
-                    fontFamily={fira_sans_600.style.fontFamily}
-                    color={'gray'}
-                >
-                    {props.label}
-                </Typography>
-            </InputLabel>}
+            {props.label && (
+                <InputLabel id="demo-simple-select-filled-label">
+                    <Typography fontFamily={fira_sans_600.style.fontFamily} color={'gray'}>
+                        {props.label}
+                    </Typography>
+                </InputLabel>
+            )}
             <Select
                 fullWidth
                 name={props.name}
@@ -67,7 +66,7 @@ export default function SelectField(props: SelectFieldProps) {
                         color: '#472F05',
                     },
                     '& label': {
-                        fontFamily: fira_sans_600.style.fontFamily
+                        fontFamily: fira_sans_600.style.fontFamily,
                     },
                     '& .MuiOutlinedInput-input': {
                         transition: '0.1s',
@@ -83,24 +82,23 @@ export default function SelectField(props: SelectFieldProps) {
                         fontFamily: fira_sans_600.style.fontFamily,
                         '&.Mui-focused': {
                             border: '2px solid #472F05',
-                        }
+                        },
                     },
                     '& .MuiInputBase-input:hover': {
                         border: '1px solid #472F05',
-                        backgroundColor: '#E5CB9A'
+                        backgroundColor: '#E5CB9A',
                     },
                     '& .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select': {
                         border: '1px solid #472F05',
                         '&.Mui-focused fieldset': {
-                            border: '1px solid #472F05'
-                        }
+                            border: '1px solid #472F05',
+                        },
                     },
                     '& .MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused': {
                         '& .MuiInputBase-input': {
                             border: '1px solid #472F05',
-                        }
-                    }
-                    
+                        },
+                    },
                 }}
             >
                 {props.choices.map((eachChoice, index) => (
@@ -125,6 +123,5 @@ export default function SelectField(props: SelectFieldProps) {
                 ))}
             </Select>
         </FormControl>
-        
     );
 }

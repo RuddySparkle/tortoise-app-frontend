@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Dayjs } from 'dayjs';
-import { IPetDetail } from '../../../services/api/v1/pets/type';
+import { IPetDetail } from '@services/api/v1/pets/type';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { Fira_Sans_Condensed } from 'next/font/google';
 import { ButtonProps, styled } from '@mui/material';
@@ -33,8 +33,7 @@ const theme = createTheme({
 });
 
 export default function SettingsCard(props: IPetDetail) {
-
-    const session = useGetSession()
+    const session = useGetSession();
 
     const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
         color: theme.palette.getContrastText('#F9C067'),
@@ -60,7 +59,6 @@ export default function SettingsCard(props: IPetDetail) {
     ];
 
     return (
-        
         <Box sx={{ height: 'auto', width: 'auto', margin: 1, mx: 1 }}>
             <Box sx={{ boxShadow: '3px 3px #472F05' }}>
                 <Box
@@ -88,58 +86,53 @@ export default function SettingsCard(props: IPetDetail) {
                         fontSize: 18,
                         '& .MuiDataGrid-cell': {
                             paddingLeft: 3,
-                            backgroundColor: '#FEF1DA'
+                            backgroundColor: '#FEF1DA',
                         },
                     }}
                 />
-                <Box 
-                    sx={{ 
+                <Box
+                    sx={{
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'center',
-                        width: 'auto', 
+                        width: 'auto',
                         height: 'auto',
                         border: '2px solid #472F05',
                         borderTop: 0,
-                        backgroundColor: '#F3C894'
+                        backgroundColor: '#F3C894',
                     }}
-                >
-                   
-                </Box>
+                ></Box>
             </Box>
             <Box
-                sx={{ 
-                    display: 'flex', 
-                    flexDirection: 'row', 
-                    justifyContent: 'space-between', 
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                     marginTop: 4,
-                    py: 2, px: 2,
+                    py: 2,
+                    px: 2,
                     border: '2px solid #472F05',
                     borderRadius: 1,
                     boxShadow: '3px 3px #472F05',
-                    backgroundColor: '#FEF1DA'
+                    backgroundColor: '#FEF1DA',
                 }}
             >
-                <Box 
-                    sx={{ 
-                        py: 1, px: 1,
+                <Box
+                    sx={{
+                        py: 1,
+                        px: 1,
                         // border: '2px solid #472F05',
                         // borderRadius: 1,
                         // boxShadow: '2px 2px #472F05',
                         // backgroundColor: '#FCD082'
-
                     }}
                 >
-                    <Typography
-                        fontFamily={fira_sans_600.style.fontFamily}
-                        fontSize={25}
-                    >
+                    <Typography fontFamily={fira_sans_600.style.fontFamily} fontSize={25}>
                         Price: ฿{props.price}
                     </Typography>
                 </Box>
-                {
-                    session.role == 'seller' ? null :
-                    <Box sx={{ width: 'auto', height: 'auto', }}>
+                {session.role == 'seller' ? null : (
+                    <Box sx={{ width: 'auto', height: 'auto' }}>
                         <Button
                             onClick={() => {
                                 router.push(`${props.id}/checkout`);
@@ -159,19 +152,13 @@ export default function SettingsCard(props: IPetDetail) {
                                 },
                             }}
                         >
-                            <Typography
-                                fontFamily={fira_sans_800.style.fontFamily}
-                                fontSize={18}
-                                color={'#472F05'}
-                            >
+                            <Typography fontFamily={fira_sans_800.style.fontFamily} fontSize={18} color={'#472F05'}>
                                 Buy Now!
                             </Typography>
                         </Button>
                     </Box>
-                }
-                
+                )}
             </Box>
-            
         </Box>
 
         //         {/* Medical Records */}

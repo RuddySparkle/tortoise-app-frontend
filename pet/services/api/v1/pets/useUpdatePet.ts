@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { IPetUpdateParams } from './type';
-import { requestClient } from '../../../clients/requestClient';
-import { IMutationHook, IResponseData, IAxiosResponse } from '../../models';
+import { requestClient } from '@services/clients/requestClient';
+import { IMutationHook, IResponseData, IAxiosResponse } from '@services/api/models';
 
 export const useUpdatePet = ({
     onSuccess,

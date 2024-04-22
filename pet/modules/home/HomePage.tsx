@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { Box } from '@mui/material';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import TopBarHomepage from '../../components/core/TopBarHomepage';
+import TopBarHomepage from '@components/core/TopBarHomepage';
 import Image from 'next/image';
-import mockPicture from '../../public/image/petHomepage.jpg';
+import mockPicture from '@public/image/petHomepage.jpg';
 import { Fira_Sans_Condensed } from 'next/font/google';
 
 const fira_sans_condensed = Fira_Sans_Condensed({ weight: ['600'], subsets: ['latin'] });

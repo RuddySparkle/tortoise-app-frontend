@@ -16,9 +16,9 @@ import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useParams, useRouter } from 'next/navigation';
-import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 import { StepIcon } from '@mui/material';
-import { ColorButton } from '../../components/core/CustomInput/type';
+import { ColorButton } from '@components/core/CustomInput/type';
 import { useEffect, useState } from 'react';
 import useToastUI from '@core/hooks/useToastUI';
 import { IPetQueryParams } from '@services/api/v1/pets/type';
@@ -49,19 +49,18 @@ function Copyright() {
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-
 export default function CheckoutPage() {
     const params = useParams();
     const petParams: IPetQueryParams = {
         petId: params?.petId as string,
     };
     const {
-            data: petFullDetail,
-            isSuccess: petSuccess,
-            isError: petError,
-            refetch,
-            isRefetching: refetchingEditPage,
-        } = useGetPetByID(petParams);
+        data: petFullDetail,
+        isSuccess: petSuccess,
+        isError: petError,
+        refetch,
+        isRefetching: refetchingEditPage,
+    } = useGetPetByID(petParams);
 
     const petName = petFullDetail?.name;
     const petDescription = petFullDetail?.description;
@@ -139,35 +138,62 @@ export default function CheckoutPage() {
     function getStepContent(step: number) {
         switch (step) {
             case 0:
-                return <AddressForm
-                            firstName={firstName} updateFirstName={updateFirstName}
-                            lastName={lastName} updateLastName={updateLastName}
-                            address1={address1} updateAddress1={updateAddress1}
-                            address2={address2} updateAddress2={updateAddress2}
-                            city={city} updateCity={updateCity}
-                            state={state} updateState={updateState}
-                            zip={zip} updateZip={updateZip}
-                            country={country} updateCountry={updateCountry}
-                        />;
+                return (
+                    <AddressForm
+                        firstName={firstName}
+                        updateFirstName={updateFirstName}
+                        lastName={lastName}
+                        updateLastName={updateLastName}
+                        address1={address1}
+                        updateAddress1={updateAddress1}
+                        address2={address2}
+                        updateAddress2={updateAddress2}
+                        city={city}
+                        updateCity={updateCity}
+                        state={state}
+                        updateState={updateState}
+                        zip={zip}
+                        updateZip={updateZip}
+                        country={country}
+                        updateCountry={updateCountry}
+                    />
+                );
             case 1:
-                return <PaymentForm
-                            paymentMethod={paymentMethod} updatePaymentMethod={updatePaymentMethod}
-                            cardHolder={cardHolder} updateCardHolder={updateCardHolder}
-                            cardNumber={cardNumber} updateCardNumber={updateCardNumber}
-                            expDate={expDate} updateExpDate={updateExpDate}
-                            cvv={cvv} updateCvv={updateCvv}
-                        />;
+                return (
+                    <PaymentForm
+                        paymentMethod={paymentMethod}
+                        updatePaymentMethod={updatePaymentMethod}
+                        cardHolder={cardHolder}
+                        updateCardHolder={updateCardHolder}
+                        cardNumber={cardNumber}
+                        updateCardNumber={updateCardNumber}
+                        expDate={expDate}
+                        updateExpDate={updateExpDate}
+                        cvv={cvv}
+                        updateCvv={updateCvv}
+                    />
+                );
             case 2:
-                return <Review
-                            firstName={firstName} lastName={lastName}
-                            address1={address1} address2={address2}
-                            city={city} state={state}
-                            zip={zip} country={country}
-                            paymentMethod={paymentMethod}
-                            cardHolder={cardHolder} cardNumber={cardNumber}
-                            expDate={expDate} cvv={cvv}
-                            petName={petName} petDescription={petDescription} petPrice={petPrice}
-                        />;
+                return (
+                    <Review
+                        firstName={firstName}
+                        lastName={lastName}
+                        address1={address1}
+                        address2={address2}
+                        city={city}
+                        state={state}
+                        zip={zip}
+                        country={country}
+                        paymentMethod={paymentMethod}
+                        cardHolder={cardHolder}
+                        cardNumber={cardNumber}
+                        expDate={expDate}
+                        cvv={cvv}
+                        petName={petName}
+                        petDescription={petDescription}
+                        petPrice={petPrice}
+                    />
+                );
             default:
                 throw new Error('Unknown step');
         }
@@ -182,81 +208,85 @@ export default function CheckoutPage() {
             toastUI.toastError('Please fill in all required fields');
             return;
         }
-        if (activeStep === 0){
-            for(let c of firstName){
+        if (activeStep === 0) {
+            for (let c of firstName) {
                 let isAlphabetic = /^[a-zA-Z]+$/.test(c);
-                if(!isAlphabetic){
+                if (!isAlphabetic) {
                     toastUI.toastError('Firstname must not contains numbers or special characters');
                     return;
                 }
             }
-            for(let c of lastName){
+            for (let c of lastName) {
                 let isAlphabetic = /^[a-zA-Z]+$/.test(c);
-                if(!isAlphabetic){
+                if (!isAlphabetic) {
                     toastUI.toastError('Lastname must not contains numbers or special characters');
                     return;
                 }
             }
-            for(let c of city){
+            for (let c of city) {
                 let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
-                if(!isAlphabetic){
+                if (!isAlphabetic) {
                     toastUI.toastError('City must not contains numbers or special characters');
                     return;
                 }
             }
-            for(let c of zip){
+            for (let c of zip) {
                 let isNumber = /^-?\d*\.?\d+$/.test(c);
-                if(!isNumber){
+                if (!isNumber) {
                     toastUI.toastError('Zip code must be numbers');
                     return;
                 }
             }
-            for(let c of country){
+            for (let c of country) {
                 let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
-                if(!isAlphabetic){
+                if (!isAlphabetic) {
                     toastUI.toastError('Country must not contains numbers or special characters');
                     return;
                 }
             }
         }
-        if (activeStep === 1 && !paymentMethod && (cardHolder === '' || cardNumber === '' || expDate === '' || cvv === '')) {
+        if (
+            activeStep === 1 &&
+            !paymentMethod &&
+            (cardHolder === '' || cardNumber === '' || expDate === '' || cvv === '')
+        ) {
             toastUI.toastError('Please fill in all required fields');
             return;
         }
-        if(activeStep === 1){
-            for(let c of cardHolder){
+        if (activeStep === 1) {
+            for (let c of cardHolder) {
                 let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
-                if(!isAlphabetic){
+                if (!isAlphabetic) {
                     toastUI.toastError('Name on card must not contains numbers or special characters');
                     return;
                 }
             }
-            for(let c of cardNumber){
+            for (let c of cardNumber) {
                 let isNumber = /^-?\d*\.?\d+$/.test(c);
-                if(!isNumber){
+                if (!isNumber) {
                     toastUI.toastError('Card numbers must be numbers');
                     return;
                 }
             }
-            if(cardNumber.length < 13 || cardNumber.length > 19){
+            if (cardNumber.length < 13 || cardNumber.length > 19) {
                 toastUI.toastError('Card numbers must have 13 to 19 digits');
                 return;
             }
 
             let isValidExpiredDate = /^(0[1-9]|1[0-2])\/(0[0-9]|[1-9][0-9])$/.test(expDate);
-            if(!isValidExpiredDate){
+            if (!isValidExpiredDate) {
                 toastUI.toastError('Expiry date must be MM/YY format');
                 return;
             }
 
             let isValidCVV = /^\d{3,4}$/.test(cvv);
-            if(!isValidCVV){
+            if (!isValidCVV) {
                 toastUI.toastError('CVV must be 3 or 4 digits number');
                 return;
             }
         }
         if (activeStep === steps.length - 1) {
-            const paymentMethodString = paymentMethod === 0 ? 'CreditCard': 'PromptPay';
+            const paymentMethodString = paymentMethod === 0 ? 'CreditCard' : 'PromptPay';
             useCreatePayment(petFullDetail, paymentMethodString).then((res) => {
                 if (res) {
                     toastUI.toastSuccess('Payment successful!');

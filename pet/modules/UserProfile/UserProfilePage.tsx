@@ -4,12 +4,12 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Avatar, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import UserSettingsCard from '../../components/user/UserSettings';
-import { fira_sans_400, fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
-import AccountOptionList from '../../components/user/AccountOptionList';
-import { IUserDetail } from '../../services/api/v1/user/type';
-import useGetUserProfile from '../../services/api/v1/user/useGetUserProfile';
-import useGetSession from '../../core/auth/useGetSession';
+import UserSettingsCard from '@components/user/UserSettings';
+import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import AccountOptionList from '@components/user/AccountOptionList';
+import { IUserDetail } from '@services/api/v1/user/type';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import useGetSession from '@core/auth/useGetSession';
 import useGetBankAccount from '@services/api/v1/seller/useGetBankAccount';
 import { ISellerQueryParams } from '@services/api/v1/seller/type';
 import BankAccountShowCase from '@components/user/BankAccountShowCase';
@@ -37,17 +37,17 @@ export default function UserProfilePage() {
                         pt: 0,
                     }}
                 >
-                    <Grid item md={4} sx={{ alignSelf: 'normal', justifySelf: 'center'}}>
-                        <Box 
-                            display={'flex'} 
-                            flexDirection={'column'} 
-                            alignItems={'center'} 
+                    <Grid item md={4} sx={{ alignSelf: 'normal', justifySelf: 'center' }}>
+                        <Box
+                            display={'flex'}
+                            flexDirection={'column'}
+                            alignItems={'center'}
                             border={'2px solid #472F05'}
                             borderRadius={1}
                             boxShadow={'3px 3px #472F05'}
                             p={3}
                             sx={{
-                                backgroundColor: '#F9E6CF'
+                                backgroundColor: '#F9E6CF',
                             }}
                         >
                             <Box
@@ -98,7 +98,7 @@ export default function UserProfilePage() {
                             boxShadow={'3px 3px #472F05'}
                             p={5}
                             sx={{
-                                backgroundColor: '#F1C9B7'
+                                backgroundColor: '#F1C9B7',
                             }}
                         >
                             <UserSettingsCard

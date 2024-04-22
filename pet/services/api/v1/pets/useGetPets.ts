@@ -1,7 +1,7 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
+import { requestClient } from '@services/clients/requestClient';
 import { IPetProfile, PetSearchParams, Pagination } from './type';
-import useToastUI from '../../../../core/hooks/useToastUI';
+import useToastUI from '@core/hooks/useToastUI';
 
 const fetchPetList = async (queryParams: PetSearchParams) => {
     const { toastError } = useToastUI();

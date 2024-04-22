@@ -1,2 +1,2 @@
-import AddPetForm from '../../../../../../modules/PetAdd/AddPetForm';
+import AddPetForm from '@modules/PetAdd/AddPetForm';
 export default AddPetForm;
