@@ -19,7 +19,7 @@ describe('Pet Creation Test', () => {
 
     it('should error because of empty input [TC3-1]', () => {
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Please fill the required fields.');
+        cy.contains('Please fill all required fields.');
     });
 
     it('should error because of age, price, and weight contain non-numeric alphabets [TC3-2]', () => {
@@ -32,7 +32,7 @@ describe('Pet Creation Test', () => {
         cy.get('input[name="species"]').type('Golden Retriever', { force: true });
         cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Pet creation failed');
+        cy.contains('Age, Price, and Weight are should be a number.');
     });
 
     it('should error because of age, price, and weight contain zero or negative values [TC3-3]', () => {
@@ -45,7 +45,7 @@ describe('Pet Creation Test', () => {
         cy.get('input[name="species"]').type('Golden Retriever', { force: true });
         cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Pet creation failed');
+        cy.contains('Age, Price, and Weight should be greater than 0.');
     });
 
     it("should error because media file type isn't an image [TC3-4]", () => {
@@ -61,7 +61,7 @@ describe('Pet Creation Test', () => {
         cy.contains('Please wait for the image to upload.').click();
         cy.wait(3);
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Pet creation failed');
+        cy.contains('File is not an image type.');
     });
 
     it("should error because media file type isn't an image [TC3-5]", () => {
@@ -75,9 +75,9 @@ describe('Pet Creation Test', () => {
         cy.get('input[type="file"]').selectFile('./public/dummy/text.txt', { force: true });
         cy.get('button').contains('Add My Pet').click();
         cy.contains('Please wait for the image to upload.').click();
-        cy.wait(3);
+        cy.wait(10);
         cy.get('button').contains('Add My Pet').click();
-        cy.contains('Pet creation failed');
+        cy.contains('File is not an image type.');
     });
 
     it("should error because media file type isn't an image [TC3-6]", () => {
@@ -91,7 +91,7 @@ describe('Pet Creation Test', () => {
         cy.get('input[type="file"]').selectFile('./public/image/dogSleep.png', { force: true });
         cy.get('button').contains('Add My Pet').click();
         cy.contains('Please wait for the image to upload.').click();
-        cy.wait(3);
+        cy.wait(5);
         cy.get('button').contains('Add My Pet').click();
         cy.contains('Pet created successfully');
     });

@@ -133,7 +133,7 @@ export default function AddPetForm() {
 
     const base64TypeSchema = z.string().refine(value => {
         const parts = value.split(';');
-        return (parts[0].includes("data:image") && parts[1].includes("base64"));
+        return (parts[0].includes("data") && parts[1].includes("base64"));
     })
 
     const imageTypeSchema = z.string().refine(value => {
@@ -147,7 +147,7 @@ export default function AddPetForm() {
         try {
             userInputSchema.parse(input);
         } catch (error) {
-            return [false, "Required inputs are empty."]; 
+            return [false, "Please fill all required fields."]; 
         }
 
         input.age = Number(input.age)
@@ -157,13 +157,13 @@ export default function AddPetForm() {
         try {
             isNumberInputSchema.parse(input);
         } catch (error) {
-            return [false, "Age, Price, and Weight are not in number type."]; 
+            return [false, "Age, Price, and Weight are should be a number."]; 
         }
 
         try {
             minNumberInputSchema.parse(input);
         } catch (error) {
-            return [false, "Age, Price, and Weight are not greater than 0."];
+            return [false, "Age, Price, and Weight should be greater than 0."];
         }
 
         return [true, "Input Accept"];
@@ -305,6 +305,7 @@ export default function AddPetForm() {
     });
 
     const onSubmit = async (data: IPetUpdatePayload) => {
+        console.log(data)
         // try{
         //     data.age = Number(data.age)
         //     data.price = Number(data.age)
@@ -344,15 +345,14 @@ export default function AddPetForm() {
         }
 
         data.is_sold = false;
-        data.age = Number(data.age);
-        data.price = Number(data.price);
-        data.weight = Number(data.weight);
         const medic = new Array<MedicalRecord>();
         rows.map((d) =>
             medic.push({ medical_id: d.medical_id, medical_date: d.medical_date, description: d.description }),
         );
         data.medical_records = medic;
         data.media = base64Img;
+
+        console.log(data)
 
         try {
             await mutateCreatePet({ sellerId: sellerId, payload: data } as IPetCreateParams);
