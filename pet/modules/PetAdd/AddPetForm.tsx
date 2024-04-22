@@ -113,12 +113,12 @@ export default function AddPetForm() {
         name: z.string().min(1),
         age: z.string().min(1),
         price: z.string().min(1),
-        description: z.string().min(1),
+        description: z.string().min(0),
         weight: z.string().min(1),
         sex: z.string().min(1),
         species: z.string().min(1),
         category: z.string().min(1),
-        behavior: z.string().min(1),
+        behavior: z.string().min(0),
     });
     const validateInput = (input: IPetUpdatePayload): boolean => {
         try {
@@ -415,6 +415,7 @@ export default function AddPetForm() {
 
                         <CustomTextField
                             {...form.register('description')}
+                            required={false}
                             label="Description"
                             variant="outlined"
                             autoComplete="pet-description"
@@ -446,32 +447,40 @@ export default function AddPetForm() {
                                     </MenuItem>
                                 ))}
                             </CustomTextField>
-
-                            <SelectField
-                                {...form.register('category')}
-                                name="category"
-                                label="Category"
-                                sx={sxTextField}
-                                choices={CATEGORY_CHOICES}
-                                setFormValue={(value) => {
-                                    form.setValue('category', value);
-                                    form.clearErrors();
-                                }}
-                            />
-                            <SelectField
-                                {...form.register('species')}
-                                name="species"
-                                label="Species"
-                                sx={sxTextField}
-                                choices={SPECIES_CHOICES}
-                                disabled={!watcher}
-                                setFormValue={(value) => {
-                                    form.setValue('species', value);
-                                }}
-                            />
+                            <CustomTextField {...form.register('category')} select label="Category" sx={sxTextField}>
+                                {CATEGORY_CHOICES.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            fontFamily: fira_sans_condensed.style.fontFamily,
+                                            '&:hover': { backgroundColor: '#F3DDD1' },
+                                            '&:focus': { backgroundColor: 'rgb(272, 174, 133) !important' },
+                                        }}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </CustomTextField>
+                            <CustomTextField {...form.register('species')} select label="Species" sx={sxTextField}>
+                                {SPECIES_CHOICES.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            fontFamily: fira_sans_condensed.style.fontFamily,
+                                            '&:hover': { backgroundColor: '#F3DDD1' },
+                                            '&:focus': { backgroundColor: 'rgb(272, 174, 133) !important' },
+                                        }}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </CustomTextField>
                         </Box>
                         <CustomTextField
                             {...form.register('behavior')}
+                            required={false}
                             label="Behaviour"
                             variant="outlined"
                             type={'text'}
