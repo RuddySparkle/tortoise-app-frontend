@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import Image from 'next/image';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -29,7 +30,7 @@ function TopBar() {
     const router = useRouter();
     const session = useGetSession();
 
-    const [profileImage, setProfileImage] = useState('')
+    const [profileImage, setProfileImage] = useState<string | undefined>('')
     const [pages, setPages] = useState([''])
 
     // const pages = session.role === 'seller' ? ['My Shop', 'Marketplace'] : ['Marketplace', 'My Orders'] 
@@ -81,9 +82,8 @@ function TopBar() {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* START LARGE TABS OF LOGO */}
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, px: '3%', color: 'black' }}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                        <Typography
+                    <Box sx={{ display: {xs: 'none', md: 'block'}, height: '100%', px: '3%', color: 'black', position: 'relative' }}>
+                        {/* <Typography
                             variant="h6"
                             noWrap
                             component="a"
@@ -97,7 +97,14 @@ function TopBar() {
                             }}
                         >
                             PETPAL
-                        </Typography>
+                        </Typography> */}
+                        <Image 
+                            src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                            alt={'Petpal Logo'}
+                            width={130}
+                            height={250}
+                            style={{ objectFit: 'fill' }}
+                        />
                     </Box>
                     {/* END LARGE TABS OF LOGO */}
 
@@ -110,6 +117,9 @@ function TopBar() {
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            sx={{
+                                color: '#472F05'
+                            }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -149,7 +159,7 @@ function TopBar() {
                     {/* END SMALL TABS OF NAVIGATION */}
 
                     {/* START SMALL TABS OF MIDDLE LOGO */}
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -165,7 +175,23 @@ function TopBar() {
                         }}
                     >
                         PETPAL
-                    </Typography>
+                    </Typography> */}
+                    <Box
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex', md: 'none' },
+                            flexGrow: 1,
+                            color: 'inherit',
+                        }}
+                    >
+                        <Image 
+                            src={"https://drive.google.com/uc?id=1Htzur4wU7MddA1xVm2jeH2U1UKFpsA2J"}
+                            alt={'Petpal Logo'}
+                            width={130}
+                            height={250}
+                            style={{ objectFit: 'fill' }}
+                        />
+                    </Box>
                     {/* END SMALL TABS OF MIDDLE LOGO */}
 
                     {/* START LARGE TABS OF NAVIGATION */}
