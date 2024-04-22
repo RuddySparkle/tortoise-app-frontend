@@ -198,7 +198,7 @@ export default function CheckoutPage() {
                 }
             }
             for(let c of city){
-                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
                 if(!isAlphabetic){
                     toastUI.toastError('City must not contains numbers or special characters');
                     return;
@@ -212,7 +212,7 @@ export default function CheckoutPage() {
                 }
             }
             for(let c of country){
-                let isAlphabetic = /^[a-zA-Z]+$/.test(c);
+                let isAlphabetic = /^[a-zA-Z\s]+$/.test(c);
                 if(!isAlphabetic){
                     toastUI.toastError('Country must not contains numbers or special characters');
                     return;
