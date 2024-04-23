@@ -12,6 +12,8 @@ RUN yarn install
 # Copy the rest of the application code
 COPY ./pet ./
 
+RUN yarn build
+
 
 # Command to run your application
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]

@@ -38,7 +38,7 @@
         "react-material-ui-carousel": "^3.4.2",
         "react-router-dom": "^6.22.3",
         "react-toastify": "^10.0.4",
-        "sharp": "^0.33.2",
+        "sharp": "^0.33.3",
         "zod": "^3.22.4"
     },
     "devDependencies": {
