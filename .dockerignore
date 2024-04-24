@@ -11,3 +11,10 @@ README.md
 **/cypress
 **/cypress.json
 **/cypress.config.js
+
+# yarn
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.yarnrc
+**/.yarn
