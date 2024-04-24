@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Paper, Grid, Slide, Box, TextField, Button, Typography } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -8,13 +8,12 @@ import transactionTheme from '@core/theme/transactionTheme';
 import { fira_sans_800 } from '@core/theme/theme';
 import { useRouter } from 'next/navigation';
 
-function Transaction( { role, transaction }: { role: number, transaction: any } ) {
-
-    const router = useRouter()
+function Transaction({ role, transaction }: { role: number; transaction: any }) {
+    const router = useRouter();
     const [hovered, setHovered] = React.useState(false);
     const [showContent, setShowContent] = React.useState(false);
 
-    const { transactionStyles } = transactionTheme
+    const { transactionStyles } = transactionTheme;
     const classes = transactionStyles();
     const containerRef = React.useRef<HTMLElement>(null);
 
@@ -24,7 +23,7 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
         } else if (transaction.status === 'pending') {
             return 'Pending';
         }
-    }
+    };
 
     const statusColor = () => {
         if (transaction.status === 'paid') {
@@ -32,7 +31,7 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
         } else if (transaction.status === 'pending') {
             return '#f99867';
         }
-    }
+    };
 
     const priceColor = () => {
         if (transaction.status === 'paid') {
@@ -47,22 +46,22 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
             // Yellow for pending
             return '#f99867';
         }
-    }
+    };
 
     return (
         <Box ref={containerRef}>
             <Paper
-                component='div'
+                component="div"
                 sx={{
                     p: '10px 30px',
                     display: 'flex',
                     boxShadow: '5px 4px #472F05',
                     alignItems: 'center',
                     transition: '0.2s',
-                    backgroundColor: hovered ? '#F9C067': '#FDDFAA',
+                    backgroundColor: hovered ? '#F9C067' : '#FDDFAA',
                     border: '2px solid black',
                     borderRadius: 0,
-                    position: 'relative'
+                    position: 'relative',
                 }}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
@@ -77,18 +76,41 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
                     <span className={classes.paymentMethod}>{transaction.payment_method}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
-                    <span className={classes.status} style={{color: statusColor(), border: `2.2px solid ${statusColor()}`, padding: '12px', borderRadius: '5px'}}>{statusTxt()}</span>
+                    <span
+                        className={classes.status}
+                        style={{
+                            color: statusColor(),
+                            border: `2.2px solid ${statusColor()}`,
+                            padding: '12px',
+                            borderRadius: '5px',
+                        }}
+                    >
+                        {statusTxt()}
+                    </span>
                 </Grid>
                 <Grid item xs={3} className={classes.gridItem}>
-                    <span className={classes.price} style={{color: priceColor()}}>{transaction.price}</span>
+                    <span className={classes.price} style={{ color: priceColor() }}>
+                        {transaction.price}
+                    </span>
                 </Grid>
-                <Grid item xs={0.5} alignItems='center' justifyContent='center'>
-                    {showContent ? <ExpandLessIcon className={classes.expandIcon} /> : <ExpandMoreIcon className={classes.expandIcon} />}
+                <Grid item xs={0.5} alignItems="center" justifyContent="center">
+                    {showContent ? (
+                        <ExpandLessIcon className={classes.expandIcon} />
+                    ) : (
+                        <ExpandMoreIcon className={classes.expandIcon} />
+                    )}
                 </Grid>
             </Paper>
-            <Slide direction='right' in={showContent} mountOnEnter unmountOnExit container={containerRef.current} style={{zIndex: 1}}>
+            <Slide
+                direction="right"
+                in={showContent}
+                mountOnEnter
+                unmountOnExit
+                container={containerRef.current}
+                style={{ zIndex: 1 }}
+            >
                 <Paper
-                    component='div'
+                    component="div"
                     sx={{
                         px: '30px',
                         py: '100px',
@@ -101,17 +123,24 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
                         border: '2px solid black',
                         borderRadius: 0,
                         position: 'relative',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
                     }}
                 >
                     <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" height="20px">
                         <Box>
-                            <Image 
-                                width={300} 
+                            <Image
+                                width={300}
                                 height={300}
                                 src={transaction.pet_detail.media}
                                 alt="Pet Picture"
-                                style={{ objectFit: 'cover', width: '150px', height: '150px', maxHeight: 'fit-content', border: '2px solid black', borderRadius: 3 }}
+                                style={{
+                                    objectFit: 'cover',
+                                    width: '150px',
+                                    height: '150px',
+                                    maxHeight: 'fit-content',
+                                    border: '2px solid black',
+                                    borderRadius: 3,
+                                }}
                             />
                         </Box>
                         <Box display="flex" flexDirection="column" marginLeft="2%">
@@ -165,61 +194,69 @@ function Transaction( { role, transaction }: { role: number, transaction: any } 
                                     readOnly: true,
                                 }}
                                 sx={{
-                                    width: "40%",
-                                    marginRight: "-5%",
-                                    backgroundColor: "#ffeac4"
+                                    width: '40%',
+                                    marginRight: '-5%',
+                                    backgroundColor: '#ffeac4',
                                 }}
                             />
                         </Box>
-                        <ArrowRightAltIcon sx={{fontSize: "70px", color: "#ffd891", transform: "scaleX(1.9)", marginLeft: "-4%", marginRight: "-5%"}} />
+                        <ArrowRightAltIcon
+                            sx={{
+                                fontSize: '70px',
+                                color: '#ffd891',
+                                transform: 'scaleX(1.9)',
+                                marginLeft: '-4%',
+                                marginRight: '-5%',
+                            }}
+                        />
                         <Box flex="1" display="flex" justifyContent="center">
                             <TextField
                                 id="outlined-read-only-input"
                                 label="Buyer Name"
                                 defaultValue={transaction.buyer_name}
                                 InputProps={{
-                                    readOnly: true
+                                    readOnly: true,
                                 }}
                                 sx={{
-                                    width: "40%",
-                                    marginRight: "1%",
-                                    backgroundColor: "#ffeac4"
+                                    width: '40%',
+                                    marginRight: '1%',
+                                    backgroundColor: '#ffeac4',
                                 }}
                             />
                         </Box>
                     </Box>
-                        <Button
-                            onClick={() => router.push(`/user/account/review?bid=${transaction.buyer_id}&sid=${transaction.seller_id}&sname=${transaction.seller_name}`)}
-                            sx={{
-                                '&.MuiButton-root': {
-                                    border: '2px solid #472F05',
-                                    boxShadow: '2px 2px #472F05',
-                                    color: '#472F05',
-                                    borderRadius: 0,
-                                    backgroundColor: '#FAA943',
-                                    px: 2,
-                                    py: 0.5,
-                                    position: 'absolute',
-                                    right: 30,
-                                    bottom: 30,
-                                },
-                                '&:hover': {
-                                    backgroundColor: '#F79762',
-                                },
-                            }}
-                        >
-                            <Typography
-                                color={'#472F05'}
-                                fontFamily={fira_sans_800.style.fontFamily}
-                                fontSize={16}
-                            >
-                                Add Seller's Review
-                            </Typography>
-                        </Button>
+                    <Button
+                        onClick={() =>
+                            router.push(
+                                `/user/account/review?bid=${transaction.buyer_id}&sid=${transaction.seller_id}&sname=${transaction.seller_name}`,
+                            )
+                        }
+                        sx={{
+                            '&.MuiButton-root': {
+                                border: '2px solid #472F05',
+                                boxShadow: '2px 2px #472F05',
+                                color: '#472F05',
+                                borderRadius: 0,
+                                backgroundColor: '#FAA943',
+                                px: 2,
+                                py: 0.5,
+                                position: 'absolute',
+                                right: 30,
+                                bottom: 30,
+                            },
+                            '&:hover': {
+                                backgroundColor: '#F79762',
+                            },
+                        }}
+                    >
+                        <Typography color={'#472F05'} fontFamily={fira_sans_800.style.fontFamily} fontSize={16}>
+                            Add Seller's Review
+                        </Typography>
+                    </Button>
                 </Paper>
             </Slide>
         </Box>
-    )
+    );
 }
 
-export default Transaction
+export default Transaction;

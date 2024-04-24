@@ -1,4 +1,4 @@
-FROM node:21-alpine
+FROM node:20.11-alpine
 
 WORKDIR /app/pet/
 
@@ -13,7 +13,6 @@ RUN yarn install
 COPY ./pet ./
 
 RUN yarn build
-
 
 # Command to run your application
 CMD ["yarn", "start"]

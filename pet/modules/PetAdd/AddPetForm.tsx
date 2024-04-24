@@ -28,6 +28,8 @@ import {
     GridRowId,
     GridRowModel,
     GridRowEditStopReasons,
+    GridToolbarProps,
+    ToolbarPropsOverrides,
 } from '@mui/x-data-grid';
 import { randomId } from '@mui/x-data-grid-generator';
 import { fira_sans_600 } from '@core/theme/theme';
@@ -590,7 +592,9 @@ export default function AddPetForm() {
                                 onRowEditStop={handleRowEditStop}
                                 processRowUpdate={processRowUpdate}
                                 slots={{
-                                    toolbar: EditToolbar,
+                                    toolbar: (props: GridToolbarProps & ToolbarPropsOverrides) => (
+                                        <EditToolbar {...props} setRows={setRows} setRowModesModel={setRowModesModel} />
+                                    ),
                                 }}
                                 slotProps={{
                                     toolbar: { setRows, setRowModesModel },

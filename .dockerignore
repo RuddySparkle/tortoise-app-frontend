@@ -1,3 +1,13 @@
-node_modules
+**/node_modules
 .git
+**/.vscode
 .dockerignore
+**/*.log
+docker-compose.yml
+Dockerfile
+README.md
+
+# ignore cypress files
+**/cypress
+**/cypress.json
+**/cypress.config.js
