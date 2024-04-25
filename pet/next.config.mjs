@@ -13,7 +13,7 @@ const nextConfig = {
             },
         ],
     },
-
+    swcMinify: false, // Disable SWC minification
     webpack: (config) => {
         config.resolve.alias.canvas = false;
         config.resolve.extensionAlias = {
