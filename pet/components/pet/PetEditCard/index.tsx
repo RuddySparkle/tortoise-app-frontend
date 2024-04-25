@@ -1,9 +1,9 @@
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { IPetDetail, IPetUpdatePayload } from '../../../services/api/v1/pets/type';
+import { IPetDetail, IPetUpdatePayload } from '@services/api/v1/pets/type';
 import { Box, TextField } from '@mui/material';
-import { fira_sans_600 } from '../../../core/theme/theme';
-import { CustomTextField } from '../../core/CustomInput/type';
-import SelectField, { SelectFieldChoice } from '../../core/SelectField';
+import { fira_sans_600 } from '@core/theme/theme';
+import { CustomTextField } from '@components/core/CustomInput/type';
+import SelectField, { SelectFieldChoice } from '@components/core/SelectField';
 import { UseFormReturn, useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
 import useGetPetCategory, { IPetCategoryMasterData } from '@services/api/master/useGetPetCategory';

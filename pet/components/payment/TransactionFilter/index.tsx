@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Grid, FormControl } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,11 +9,14 @@ import { DateRange } from '@mui/x-date-pickers-pro';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import transactionTheme from '@core/theme/transactionTheme';
 import { LicenseInfo } from '@mui/x-license';
+import dayjs from 'dayjs';
 
-LicenseInfo.setLicenseKey('e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y');
+LicenseInfo.setLicenseKey(
+    'e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y',
+);
 
-function TransactionFilter({ data, filter }: { data: any, filter: any }) {
-    const [dateRange, setDateRange] = React.useState<DateRange<Date>>([null, null]);
+function TransactionFilter({ data, filter }: { data: any; filter: any }) {
+    const [dateRange, setDateRange] = React.useState<DateRange<dayjs.Dayjs>>([null, null]);
     const [paymentMethod, setPaymentMethod] = React.useState('');
     const [status, setStatus] = React.useState('');
 
@@ -29,9 +32,9 @@ function TransactionFilter({ data, filter }: { data: any, filter: any }) {
             endDate,
             paymentMethod,
             status,
-        }
+        };
         filter(filterQuery);
-    }
+    };
 
     return (
         <Grid
@@ -39,54 +42,50 @@ function TransactionFilter({ data, filter }: { data: any, filter: any }) {
             justifyContent="center"
             alignItems="center"
             spacing={5}
-            columns={{xs: 12}}
+            columns={{ xs: 12 }}
             paddingBottom={6}
             paddingTop={6}
         >
             <Grid item xs={3.6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                    <DateRangePicker
-                        value={dateRange}
-                        onChange={(newValue) => setDateRange(newValue)}
-                        calendars={1}
-                    />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateRangePicker value={dateRange} onChange={(newValue) => setDateRange(newValue)} calendars={1} />
                 </LocalizationProvider>
             </Grid>
             <Grid item xs={1.8}>
                 <FormControl fullWidth>
-                    <InputLabel id='payment-method'>Payment Method</InputLabel>
+                    <InputLabel id="payment-method">Payment Method</InputLabel>
                     <Select
-                        labelId='payment-method'
-                        id='payment-method'
+                        labelId="payment-method"
+                        id="payment-method"
                         value={paymentMethod}
-                        label='Payment Method'
+                        label="Payment Method"
                         onChange={(e: SelectChangeEvent) => setPaymentMethod(e.target.value)}
                     >
-                        <MenuItem value=''>All</MenuItem>
-                        <MenuItem value='credit card'>Credit Card</MenuItem>
-                        <MenuItem value='prompt pay'>Prompt Pay</MenuItem>
+                        <MenuItem value="">All</MenuItem>
+                        <MenuItem value="credit card">Credit Card</MenuItem>
+                        <MenuItem value="prompt pay">Prompt Pay</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={1.8}>
                 <FormControl fullWidth>
-                    <InputLabel id='status'>Status</InputLabel>
+                    <InputLabel id="status">Status</InputLabel>
                     <Select
-                        labelId='status'
-                        id='status'
+                        labelId="status"
+                        id="status"
                         value={status}
-                        label='Status'
+                        label="Status"
                         onChange={(e: SelectChangeEvent) => setStatus(e.target.value)}
                     >
-                        <MenuItem value=''>All</MenuItem>
-                        <MenuItem value='paid'>Paid</MenuItem>
-                        <MenuItem value='pending'>Pending</MenuItem>
+                        <MenuItem value="">All</MenuItem>
+                        <MenuItem value="paid">Paid</MenuItem>
+                        <MenuItem value="pending">Pending</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={1.8}>
                 <ColorButton
-                    variant='contained'
+                    variant="contained"
                     sx={{
                         border: '2px solid #472F05',
                         borderRadius: 0,
@@ -95,7 +94,7 @@ function TransactionFilter({ data, filter }: { data: any, filter: any }) {
                         '&:hover': {
                             border: '2px solid #472F05',
                             boxShadow: '4px 4px #472F05',
-                        }
+                        },
                     }}
                     onClick={handleSubmit}
                 >
@@ -103,7 +102,7 @@ function TransactionFilter({ data, filter }: { data: any, filter: any }) {
                 </ColorButton>
             </Grid>
         </Grid>
-    )
+    );
 }
 
 export default TransactionFilter;

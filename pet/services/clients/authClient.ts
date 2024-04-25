@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { DEFAULT_DEV_TOKEN, requestConfig } from './config';
-import { getLocalStorageValue } from '../../core/utils/localStorage';
+import { getLocalStorageValue } from '@core/utils/localStorage';
 
 const authClient = axios.create({
     ...requestConfig,

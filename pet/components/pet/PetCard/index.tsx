@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import Image from 'next/image';
-import InteractionPetCard from '../InteractionPetCard';
-import { PetCardProps } from '../PetCatalogue';
+import InteractionPetCard from '@components/pet/InteractionPetCard';
+import { PetCardProps } from '@components/pet/PetCatalogue';
 import { styled } from '@mui/material';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
@@ -32,7 +32,9 @@ export default function PetCard(props: PetCardProps) {
                 />
             </Box>
             <div style={{ display: 'block', height: 100, padding: 10, overflowWrap: '-moz-initial' }}>
-                <div style={{ textAlign: 'center', fontSize: 23, fontFamily: fira_sans_800.style.fontFamily }}>{petName}</div>
+                <div style={{ textAlign: 'center', fontSize: 23, fontFamily: fira_sans_800.style.fontFamily }}>
+                    {petName}
+                </div>
                 <div>Category: {category}</div>
                 <div
                     style={{

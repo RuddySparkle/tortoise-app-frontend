@@ -4,8 +4,8 @@ import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import { fira_sans_600 } from '../../../core/theme/theme';
-import { CustomTabs } from '../../../core/theme/theme';
+import { fira_sans_600 } from '@core/theme/theme';
+import { CustomTabs } from '@core/theme/theme';
 
 type PaymentMethodTabProps = {
     value: number;

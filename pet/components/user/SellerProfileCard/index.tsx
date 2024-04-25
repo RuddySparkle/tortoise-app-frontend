@@ -6,7 +6,7 @@ import { Box, Typography, Stack, Card, Divider, FormLabel, FormControl, Avatar, 
 import { useRouter } from 'next/navigation';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { useState } from 'react';
-import SellerReviewDialog from '../SellerReviewDialog';
+import SellerReviewDialog from '@components/user/SellerReviewDialog';
 import useGetSellerReviews from '@services/api/v1/review/useGetSellerReview';
 import { SellerReview } from '@services/api/v1/review/type';
 

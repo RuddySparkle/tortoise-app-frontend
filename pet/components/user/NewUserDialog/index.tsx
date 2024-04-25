@@ -5,17 +5,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TransitionProps } from '@mui/material/transitions';
-import { fira_sans_600, fira_sans_800 } from '../../../core/theme/theme';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 import { Grid, Zoom, InputAdornment, IconButton, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { IChangePassword } from '../../../services/api/v1/user/type';
-import { CustomPinkTextField } from '../../../core/theme/theme';
+import { IChangePassword } from '@services/api/v1/user/type';
+import { CustomPinkTextField } from '@core/theme/theme';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import useToastUI from '../../../core/hooks/useToastUI';
-import { CustomDialogProps } from '../../core/CustomDialog/type';
+import useToastUI from '@core/hooks/useToastUI';
+import { CustomDialogProps } from '@components/core/CustomDialog/type';
 import path from 'path';
 import { usePathname } from 'next/navigation';
 
@@ -54,11 +54,11 @@ export default function NewUserDialog(props: CustomDialogProps) {
     };
 
     useEffect(() => {
-        if(path.includes('edit-profile')){
-            console.log('pass')
-            setOpen(false)
+        if (path.includes('edit-profile')) {
+            console.log('pass');
+            setOpen(false);
         }
-    }, [path])
+    }, [path]);
 
     return (
         <React.Fragment>

@@ -1,5 +1,5 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
+import { requestClient } from '@services/clients/requestClient';
 import { ISellerProfile } from './type';
 
 export default function useGetSellerProfile(queryParams: string, queryOptions?: any): UseQueryResult<ISellerProfile> {

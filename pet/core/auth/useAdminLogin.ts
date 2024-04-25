@@ -1,5 +1,5 @@
-import { authClient } from '../../services/clients';
-import { requestClient } from '../../services/clients/requestClient';
+import { authClient } from '@services/clients';
+import { requestClient } from '@services/clients/requestClient';
 import { ISessionData, LoginInfo } from './type';
 
 const setSessionData = async (sessionId: string) => {

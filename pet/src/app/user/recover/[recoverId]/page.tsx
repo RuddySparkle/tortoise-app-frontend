@@ -1,2 +1,2 @@
-import VerifyOTP from '../../../../../modules/Recover/VerifyOTP';
+import VerifyOTP from '@modules/Recover/VerifyOTP';
 export default VerifyOTP;

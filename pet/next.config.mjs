@@ -6,14 +6,14 @@ const nextConfig = {
     },
     basePath: '/petpal',
     images: {
-        domains: ['drive.google.com', 'picsum.photos', 'cdn2.thedogapi.com', 'scontent.fbkk5-7.fna.fbcdn.net', 'images.dog.ceo'],
         remotePatterns: [
             {
-              protocol: "https",
-              hostname: "**",
+                protocol: 'https',
+                hostname: '**',
             },
-          ],
+        ],
     },
+    swcMinify: false, // Disable SWC minification
     webpack: (config) => {
         config.resolve.alias.canvas = false;
         config.resolve.extensionAlias = {

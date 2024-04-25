@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Fira_Sans_Condensed } from 'next/font/google';
-import useRegister from '../../core/auth/useRegister';
+import useRegister from '@core/auth/useRegister';
 import { CustomPinkTextField, fira_sans_600 } from '@core/theme/theme';
 import useToastUI from '@core/hooks/useToastUI';
 
@@ -29,7 +29,7 @@ type FormValues = {
     username: string;
     email: string;
     password: string;
-    license?: string
+    license?: string;
 };
 
 const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -42,10 +42,10 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 export default function RegisterForm() {
     const form = useForm<FormValues>();
-    const toastUI = useToastUI()
-    const router = useRouter()
+    const toastUI = useToastUI();
+    const router = useRouter();
 
-    const [roleSelected, setRoleSelected] = useState(0)
+    const [roleSelected, setRoleSelected] = useState(0);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -87,24 +87,23 @@ export default function RegisterForm() {
             return toastUI.toastError('Confirmed Password is not consistent.');
         }
         if (roleSelected == 1) {
-            if(!data.license || !data.license.match(/^\d{2}\/.+$/)){
+            if (!data.license || !data.license.match(/^\d{2}\/.+$/)) {
                 setLicenseError(true);
-                return toastUI.toastError('Please add a valid form of Pet seller\'s license')
+                return toastUI.toastError("Please add a valid form of Pet seller's license");
             }
-                
         } else {
-            data.license = ''
+            data.license = '';
         }
 
-        console.log(data)
+        console.log(data);
 
         const res = await useRegister(data).then((d) => {
             return d;
         });
         if (!res.error) {
-            toastUI.toastSuccess('Successfully Register')
+            toastUI.toastSuccess('Successfully Register');
         } else {
-            toastUI.toastSuccess('Register Error')
+            toastUI.toastSuccess('Register Error');
         }
     };
 
@@ -121,7 +120,12 @@ export default function RegisterForm() {
                     overflow: 'scroll',
                 }}
             >
-                <CustomPinkTextField {...form.register('role')} select label="Role" onChange={(e) => setRoleSelected(Number(e.target.value))}>
+                <CustomPinkTextField
+                    {...form.register('role')}
+                    select
+                    label="Role"
+                    onChange={(e) => setRoleSelected(Number(e.target.value))}
+                >
                     {roles.map((option) => (
                         <MenuItem
                             key={option.value}
@@ -197,8 +201,7 @@ export default function RegisterForm() {
                         ),
                     }}
                 />
-                {
-                    roleSelected == 1 ?  
+                {roleSelected == 1 ? (
                     <CustomPinkTextField
                         {...form.register('license')}
                         label="Seller's License"
@@ -206,15 +209,20 @@ export default function RegisterForm() {
                         autoComplete="current-username"
                         error={licenseError}
                         helperText={
-                            <Typography fontFamily={fira_sans_600.style.fontFamily} fontSize={13} pt={0.5} color={'gray'}>
+                            <Typography
+                                fontFamily={fira_sans_600.style.fontFamily}
+                                fontSize={13}
+                                pt={0.5}
+                                color={'gray'}
+                            >
                                 Please type in form of Year/No. (Ex. 23/097)
                             </Typography>
                         }
                         onChange={() => {
                             setLicenseError(false);
                         }}
-                    /> : null
-                }
+                    />
+                ) : null}
                 <Box
                     sx={{
                         backgroundColor: '#FAA943',

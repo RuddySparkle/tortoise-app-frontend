@@ -7,10 +7,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TransitionProps } from '@mui/material/transitions';
-import { fira_sans_400, fira_sans_600, fira_sans_800 } from '../../../core/theme/theme';
+import { fira_sans_400, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 import { Box, Grid, Zoom, InputAdornment, IconButton, Typography, Stack } from '@mui/material';
-import useToastUI from '../../../core/hooks/useToastUI';
-import SellerReviewItem from '../SellerReviewItem';
+import useToastUI from '@core/hooks/useToastUI';
+import SellerReviewItem from '@components/user/SellerReviewItem';
 import { SellerReview } from '@services/api/v1/review/type';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 

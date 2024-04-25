@@ -1,13 +1,13 @@
 'use client';
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
-import SettingsCard from '../../components/pet/SettingsCard';
+import SettingsCard from '@components/pet/SettingsCard';
 import SellerProfileCard from '@components/user/SellerProfileCard';
 import { Box } from '@mui/material';
-import useGetPetByID from '../../services/api/v1/pets/useGetPetByID';
+import useGetPetByID from '@services/api/v1/pets/useGetPetByID';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
 import { useParams } from 'next/navigation.js';
-import { IPetQueryParams } from '../../services/api/v1/pets/type';
+import { IPetQueryParams } from '@services/api/v1/pets/type';
 import ProfileCard from '@components/pet/ProfileCard';
 
 export default function PetProfile() {
@@ -21,16 +21,16 @@ export default function PetProfile() {
     if (!petSuccess) return null;
 
     return (
-        <Box 
-            sx={{ 
-                alignSelf: 'center', 
-                my: 5, 
+        <Box
+            sx={{
+                alignSelf: 'center',
+                my: 5,
                 mx: 5,
                 py: 5,
                 border: '2px solid #472F05',
                 borderRadius: 2,
                 boxShadow: '3px 3px #472F05',
-                backgroundColor: '#F8D7B8'
+                backgroundColor: '#F8D7B8',
             }}
         >
             <Grid container direction="column" sx={{ overflowX: 'hidden', flexWrap: 'nowrap' }}>
@@ -45,10 +45,12 @@ export default function PetProfile() {
                         px: { xs: 5, md: 8 },
                     }}
                 >
-                    <Grid item md={5} 
-                        sx={{ 
-                            alignSelf: 'normal', 
-                            justifySelf: 'center'
+                    <Grid
+                        item
+                        md={5}
+                        sx={{
+                            alignSelf: 'normal',
+                            justifySelf: 'center',
                         }}
                     >
                         <Box
@@ -61,14 +63,14 @@ export default function PetProfile() {
                             pb={1}
                             mb={2}
                             sx={{
-                                backgroundColor: '#E9AB8E'
+                                backgroundColor: '#E9AB8E',
                             }}
-                        > 
+                        >
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexDirection :'row',
-                                    justifyContent: 'center'
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
                                 }}
                             >
                                 <ProfileCard petImage={petFullDetail.media} />
@@ -101,9 +103,9 @@ export default function PetProfile() {
                             pb={1}
                             mb={3}
                             sx={{
-                                backgroundColor: '#FDDCA2'
+                                backgroundColor: '#FDDCA2',
                             }}
-                        > 
+                        >
                             <SettingsCard
                                 id={petFullDetail.id}
                                 media={petFullDetail.media}

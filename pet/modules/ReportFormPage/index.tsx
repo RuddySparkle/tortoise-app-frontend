@@ -1,14 +1,13 @@
 'use client';
-import { Box, Button,  Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { ColorButton, CustomTextField } from '@components/CustomInput/type';
+// import { ColorButton, CustomTextField } from '@components/CustomInput/type';
 import { SubmitHandler } from 'react-hook-form';
 import { register } from 'module';
-import { CustomGreenButton,  CustomGreenTextField, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import { CustomGreenButton, CustomGreenTextField, fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 import { useRouter } from 'next/navigation';
 import useToastUI from '@core/hooks/useToastUI';
 import useGetSession from '@core/auth/useGetSession';
-
 
 export default function ReportFormPage() {
     interface ReportFormData {
@@ -17,12 +16,10 @@ export default function ReportFormPage() {
         infomation: string;
     }
 
-    
     const router = useRouter();
     const form = useForm<ReportFormData>();
     const toastUI = useToastUI();
     const session = useGetSession();
-
 
     const onSubmit: SubmitHandler<ReportFormData> = async (data: ReportFormData) => {
         try {
@@ -31,8 +28,6 @@ export default function ReportFormPage() {
             console.error(err);
         }
     };
-
-
 
     return (
         <Box sx={{ px: { xs: '8%', md: '15%' } }}>
@@ -81,7 +76,6 @@ export default function ReportFormPage() {
                             sx={{ width: '100%' }}
                         />
 
-
                         <Typography
                             py={3}
                             align={'center'}
@@ -92,10 +86,7 @@ export default function ReportFormPage() {
                             Report Infomation
                         </Typography>
 
-                        
-
                         <textarea
-                            
                             rows={5}
                             name="infomation"
                             placeholder="ReportInfomation"
@@ -109,10 +100,7 @@ export default function ReportFormPage() {
                                 verticalAlign: 'middle',
                                 marginBottom: '10px', // Added margin bottom for spacing
                             }}
-                            >
-
-                        </textarea>
-
+                        ></textarea>
 
                         <Box
                             sx={{

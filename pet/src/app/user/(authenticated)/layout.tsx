@@ -1,6 +1,6 @@
 'use client';
 import { getLocalStorageValue } from '@core/utils';
-import TopBar from '../../../../components/core/TopBar';
+import TopBar from '@components/core/TopBar';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import useGetSession from '@core/auth/useGetSession';
@@ -12,13 +12,12 @@ export default function HomeLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-    const path = usePathname()
+    const path = usePathname();
     const session = useGetSession();
     const router = useRouter();
     const { data: userProfile, isSuccess: userProfileSuccess } = useGetUserProfile(session.userID || '');
     const [openNewUserDialog, setOpenNewUserDialog] = useState(false);
-    const [requiredProfile, setRequiredProfile] = useState(false)
+    const [requiredProfile, setRequiredProfile] = useState(false);
 
     const required_props = [
         userProfile?.first_name,
@@ -33,12 +32,12 @@ export default function HomeLayout({
     ];
 
     const handleNewUserProfile = () => {
-        setRequiredProfile(false)
+        setRequiredProfile(false);
         console.log(required_props);
         required_props.forEach((element) => {
             if (!element || element === '') {
-                console.log('set')
-                setRequiredProfile(true)
+                console.log('set');
+                setRequiredProfile(true);
             }
             console.log(element);
         });
@@ -57,15 +56,21 @@ export default function HomeLayout({
     }, [typeof window]);
 
     useEffect(() => {
-        console.log('pass1')
+        console.log('pass1');
         handleNewUserProfile();
-        console.log(requiredProfile)
-        {requiredProfile && !path.includes('edit-profile') ? setOpenNewUserDialog(true) : setOpenNewUserDialog(false)}
+        console.log(requiredProfile);
+        {
+            requiredProfile && !path.includes('edit-profile')
+                ? setOpenNewUserDialog(true)
+                : setOpenNewUserDialog(false);
+        }
     }, [userProfile, path]);
 
     useEffect(() => {
-        console.log('pass2')
-        {requiredProfile ? setOpenNewUserDialog(true) : setOpenNewUserDialog(false)}
+        console.log('pass2');
+        {
+            requiredProfile ? setOpenNewUserDialog(true) : setOpenNewUserDialog(false);
+        }
     }, [requiredProfile]);
 
     if (!userProfileSuccess) {

@@ -1,2 +1,2 @@
-import MarketplacePage from '../../../../../modules/Marketplace/MarketplacePage';
+import MarketplacePage from '@modules/marketplace/MarketplacePage';
 export default MarketplacePage;

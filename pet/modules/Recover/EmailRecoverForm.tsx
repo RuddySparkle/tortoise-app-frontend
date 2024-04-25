@@ -16,8 +16,8 @@ import { Input } from '@mui/material';
 import { Button } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { fira_sans_600 } from '../../core/theme/theme';
-import useToastUI from '../../core/hooks/useToastUI';
+import { fira_sans_600 } from '@core/theme/theme';
+import useToastUI from '@core/hooks/useToastUI';
 import { useRouter } from 'next/navigation';
 import useVerifyEmail from '@services/api/v1/user/useVerifyEmail';
 import useGetOTP from '@services/api/v1/user/useGetOTP';
@@ -81,7 +81,7 @@ export default function EmailRecoverForm() {
             setEmailError(true);
             return toastUI.toastError('Email is required');
         }
-        
+
         useVerifyEmail(data.email).then((res) => {
             if (!res) {
                 setEmailError(true);
@@ -93,7 +93,7 @@ export default function EmailRecoverForm() {
                     } else {
                         toastUI.toastSuccess('OTP has been sent to your email');
                     }
-                })
+                });
                 router.push('recover/cSN7Z4xV6IYTbOaH?email=' + data.email);
             }
         });

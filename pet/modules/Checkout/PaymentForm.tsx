@@ -2,13 +2,13 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import PaymentMethodTab from '../../components/payment/PaymentMethodTab';
+import PaymentMethodTab from '@components/payment/PaymentMethodTab';
 import { useState, Fragment } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import MockQR from '../../public/image/MockQR.png';
-import { CustomTextField } from '../../components/core/CustomInput/type';
-import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
+import MockQR from '@public/image/MockQR.png';
+import { CustomTextField } from '@components/core/CustomInput/type';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
 
 export default function PaymentForm({
     paymentMethod,
@@ -20,20 +20,19 @@ export default function PaymentForm({
     expDate,
     updateExpDate,
     cvv,
-    updateCvv
+    updateCvv,
 }: {
-    paymentMethod: any,
-    updatePaymentMethod: any,
-    cardHolder: any,
-    updateCardHolder: any,
-    cardNumber: any,
-    updateCardNumber: any,
-    expDate: any,
-    updateExpDate: any,
-    cvv: any,
-    updateCvv: any
+    paymentMethod: any;
+    updatePaymentMethod: any;
+    cardHolder: any;
+    updateCardHolder: any;
+    cardNumber: any;
+    updateCardNumber: any;
+    expDate: any;
+    updateExpDate: any;
+    cvv: any;
+    updateCvv: any;
 }) {
-    
     return (
         <Fragment>
             <Box sx={{ px: 4 }}>

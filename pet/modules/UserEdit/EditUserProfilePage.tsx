@@ -4,16 +4,16 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { MenuItem, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import useGetSession from '../../core/auth/useGetSession';
-import useGetUserProfile from '../../services/api/v1/user/useGetUserProfile';
-import { CustomTextField } from '../../components/core/CustomInput/type';
-import { Address, IUserDetail, IUserUpdateParams, IUserUpdatePayload } from '../../services/api/v1/user/type';
+import useGetSession from '@core/auth/useGetSession';
+import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
+import { CustomTextField } from '@components/core/CustomInput/type';
+import { Address, IUserDetail, IUserUpdateParams, IUserUpdatePayload } from '@services/api/v1/user/type';
 import { useForm } from 'react-hook-form';
-import { fira_sans_600, fira_sans_800 } from '../../core/theme/theme';
-import { ColorButton } from '../../components/core/CustomInput/type';
+import { fira_sans_600, fira_sans_800 } from '@core/theme/theme';
+import { ColorButton } from '@components/core/CustomInput/type';
 import { useUpdateUserProfile } from '@services/api/v1/user/useUpdateUserProfile';
 import useToastUI from '@core/hooks/useToastUI';
-import ImageUploader from '../../components/core/ImageDropbox';
+import ImageUploader from '@components/core/ImageDropbox';
 
 const SEX_CHOICES = [
     { label: 'Male', value: 'Male' },

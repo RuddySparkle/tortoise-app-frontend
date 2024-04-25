@@ -15,8 +15,8 @@
         "incremental": true,
         "plugins": [
             {
-                "name": "next",
-            },
+                "name": "next"
+            }
         ],
         "baseUrl": "./",
         "paths": {
@@ -25,9 +25,9 @@
             "@core/*": ["core/*"],
             "@modules/*": ["modules/*"],
             "@services/*": ["services/*"],
-            "@public/*": ["public/*"],
-        },
+            "@public/*": ["public/*"]
+        }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/pet/ProfileCard"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules"]
 }

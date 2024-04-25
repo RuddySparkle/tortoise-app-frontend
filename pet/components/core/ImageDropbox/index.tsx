@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Grid, Typography } from '@mui/material';
-import { ColorButton } from '../CustomInput/type';
-import { fira_sans_600 } from '../../../core/theme/theme';
+import { ColorButton } from '@components/core/CustomInput/type';
+import { fira_sans_600 } from '@core/theme/theme';
 
 type Props = {
     images: File[];
@@ -17,7 +17,7 @@ const FileUploader = (props: Props) => {
 
     const handleOnAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
-        
+
         const files: File[] = [];
 
         for (const file of e.target.files) {
@@ -77,8 +77,7 @@ const FileUploader = (props: Props) => {
                 ))}
             </Grid>
             <label htmlFor={inputId}>
-                {
-                    props.images.length >= maxImagesUpload ? null :
+                {props.images.length >= maxImagesUpload ? null : (
                     <ColorButton
                         disabled={props.images.length >= maxImagesUpload}
                         component="span"
@@ -94,8 +93,8 @@ const FileUploader = (props: Props) => {
                             Upload Files
                         </Typography>
                     </ColorButton>
-                }
-                
+                )}
+
                 {/* <Button
                     variant="contained"
                     disabled={props.images.length >= maxImagesUpload}

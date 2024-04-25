@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { requestClient } from '../../../clients/requestClient';
+import { requestClient } from '@services/clients/requestClient';
 import { ISellerQueryParams } from './type';
-import { IAxiosResponse, IMutationHook, IResponseData } from '../../models';
+import { IAxiosResponse, IMutationHook, IResponseData } from '@services/api/models';
 import { AxiosError } from 'axios';
 
 export default function useDeleteBankAccount({

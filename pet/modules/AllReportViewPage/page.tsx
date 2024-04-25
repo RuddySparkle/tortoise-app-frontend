@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { AllReportQueryParams } from '@services/api/v1/report/type';
 
 export default function AllReportViewPage() {
-
     const CustomTabs = styled(Tabs)({
         backgroundColor: '#E7EEF2',
         '& .css-1wd0tmr-MuiButtonBase-root-MuiTab-root.Mui-selected': {
@@ -24,7 +23,6 @@ export default function AllReportViewPage() {
             fontSize: 16,
             color: '#4D798E',
         },
-        
     });
 
     const [reportValue, setReportValue] = useState('all');

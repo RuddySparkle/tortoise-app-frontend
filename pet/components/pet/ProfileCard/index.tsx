@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Avatar from '@mui/material/Avatar';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Badge from '@mui/material/Badge';
-import useGetPetByID from '../../../services/api/v1/pets/useGetPetByID';
+import useGetPetByID from '@services/api/v1/pets/useGetPetByID';
 import { Fira_Sans_Condensed } from 'next/font/google';
 
 // STYLES

@@ -1,2 +1,2 @@
-import PetProfilePage from '../../../../../../modules/PetProfile/PetProfilePage';
+import PetProfilePage from '@modules/PetProfile/PetProfilePage';
 export default PetProfilePage;

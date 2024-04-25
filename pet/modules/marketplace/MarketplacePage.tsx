@@ -1,8 +1,8 @@
 'use client';
 import { Box, Typography } from '@mui/material';
-import PetCatalogue from '../../components/pet/PetCatalogue';
-import SearchField from '../../components/core/SearchField';
-import ImageCarousel from '../../components/core/ImageCarousel';
+import PetCatalogue from '@components/pet/PetCatalogue';
+import SearchField from '@components/core/SearchField';
+import ImageCarousel from '@components/core/ImageCarousel';
 import { useEffect, useReducer, useState } from 'react';
 import useGetSession from '@core/auth/useGetSession';
 import useGetUserProfile from '@services/api/v1/user/useGetUserProfile';
